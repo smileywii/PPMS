@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title>
+         SB Admin - Bootstrap Admin Template
+      </title>
+      <!-- Bootstrap Core CSS -->
+      <link href="../../css/bootstrap.min.css" rel="stylesheet">
+      <!-- Custom CSS -->
+      <link rel="stylesheet" media="screen" th:href="@{/css/sb-admin.css}" />
+      <link rel="stylesheet" media="screen" th:href="@{/css/my-styles.css}" />
+      <link rel="stylesheet" media="screen" th:href="@{/css/table-style.css}" />
+      <link rel="stylesheet" media="screen" th:href="@{/css/my-styles3.css}" />
+      <link rel="stylesheet" media="screen" th:href="@{/css/new-item-form-style.css}" />
+      <!-- Custom Fonts -->
+      <link rel="stylesheet" media="screen" th:href="@{/font-awesome/css/font-awesome.min.css}" />
+      <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+      <!-- jQuery -->
+      <script th:src="@{/js/new-item-form.js}"></script>
+      <script th:src="@{/js/jquery.js}"></script>
+      <script>
+         $(function() {
+             $('#menu-frame').load('../../menu-frame.html');
+         });
+         $(document).ready(function() {
+             $(".button").click(function() {
+                 $("#sForm").toggleClass("open");
+             });
+         
+             $(".controlTd").click(function() {
+                 $(this).children(".settingsIcons").toggleClass("display");
+                 $(this).children(".settingsIcon").toggleClass("openIcon");
+             });
+         });
+         
+      </script>
+   </head>
+   <body>
+      <div id="wrapper">
+         <div th:include="fragments/menu-frame :: menu">
+         </div>
+         <div id="page-wrapper" style="background-color:#EDEFF0">
+            <div class="container-fluid">
+               <!-- Page Heading -->
+               <div class="row">
+                  <div class="col-lg-12">
+                     <h1 class="page-header">
+                        Táblák
+                     </h1>
+                     <ol class="breadcrumb">
+                        <li>
+                           <i class="fa fa-dashboard">
+                           </i>
+                           <a href="index.html">
+                           Dashboard
+                           </a>
+                        </li>
+                        <li class="active">
+                           <i class="fa fa-table">
+                           </i> Tables
+                        </li>
+                     </ol>
+                  </div>
+               </div>
+               <!-- /.row -->
+               <!----------------------------------------Table--------------------------------------->
+               <table class="flatTable">
+                  <tr class="titleTr">
+                     <td class="titleTd" style="font-size:20px">
+                        Sportok]
+                     </td>
+                     <td colspan="4">
+                     </td>
+                     <td class="plusTd button">
+                     </td>
+                  </tr>
+                  <tr class="headingTr">
+                     <td>
+                        Sorszám
+                     </td>
+                     <td>
+                        Név
+                     </td>
+                     <td>
+                        Születési idő
+                     </td>
+                     <td>
+                        Cím
+                     </td>
+                     <td>
+                        Műveletek
+                     </td>
+                     <td>
+                     </td>
+                  </tr>
+                  <tr th:each="sport : ${sports}">
+                     <td>
+                        <p th:text=" ${sport.id} " />
+                     </td>
+                     <td>
+                        <p th:text="${sport.name}" />
+                     </td>
+                     <td>
+                     <td class="controlTd">
+                        <div class="settingsIcons">
+                           <span class="settingsIcon">
+                           <img src="http://i.imgur.com/nnzONel.png" alt="X" />
+                           </span>
+                           <span class="settingsIcon">
+                           <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
+                           <a  th:href="@{/sport/delete/{id}(id=${sport.id})}"><span>Delete</span></a>
+                           </span>
+                           <div class="settingsIcon">
+                              <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </table>
+               <div id="sForm" class="sForm sFormPadding ">
+                  <div>
+                     <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+                  </div>
+                  <div class="form">
+                     <div id="signup">
+                        <h1> Új elem felvétele</h1>
+                        <form action="#" th:action="@{/sport/new}" th:object="${sport}"  method="post" >
+                           <div class="top-row">
+                              <div class="field-wrap">
+                                 <label>
+                                 Név<span class="req">*</span>
+                                 </label>
+                                 <input type="text" required autocomplete="off" th:field="*{name}"/>
+                              </div>
+                              <button type="submit" class="button button-block">Felvétel</button>
+                        </form>
+                        </div>
+                     </div>
+                     <script>
+                        $('.form').find('input, textarea').on('keyup blur focus', function (e) {
+                        
+                        var $this = $(this),
+                            label = $this.prev('label');
+                        
+                         if (e.type === 'keyup') {
+                        	if ($this.val() === '') {
+                                label.removeClass('active highlight');
+                              } else {
+                                label.addClass('active highlight');
+                              }
+                          } else if (e.type === 'blur') {
+                          	if( $this.val() === '' ) {
+                          		label.removeClass('active highlight'); 
+                        	} else {
+                            label.removeClass('highlight');   
+                        	}   
+                          } else if (e.type === 'focus') {
+                            
+                            if( $this.val() === '' ) {
+                          		label.removeClass('highlight'); 
+                        	} 
+                            else if( $this.val() !== '' ) {
+                            label.addClass('highlight');
+                        	}
+                          }
+                        
+                        });
+                     </script>
+                  </div>
+                  <!-- tab-content -->
+               </div>
+               <!-- /form -->
+            </div>
+            <!----------------------------------------Table--------------------------------------->
+            <br>
+            <br>
+            <br>
+            <br>
+            <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+            <div class="col-lg-6">
+               <h2>
+                  Bootstrap Docs
+               </h2>
+               <p>
+                  For complete documentation, please visit
+                  <a target="_blank" href="http://getbootstrap.com/css/#tables">
+                  Bootstrap's Tables Documentation
+                  </a> .
+               </p>
+            </div>
+         </div>
+         <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+      </div>
+      <!-- /#page-wrapper -->
+      <!-- /#wrapper -->
+      <!-- Bootstrap Core JavaScript -->
+      <script th:src="@{/js/bootstrap.min.js}"></script>
+   </body>
+</html>

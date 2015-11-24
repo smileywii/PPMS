@@ -10,8 +10,8 @@
          SB Admin - Bootstrap Admin Template
       </title>
       <!-- Bootstrap Core CSS -->
-      <link href="../../css/bootstrap.min.css" rel="stylesheet">
       <!-- Custom CSS -->
+      <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
       <link rel="stylesheet" media="screen" th:href="@{/css/sb-admin.css}" />
       <link rel="stylesheet" media="screen" th:href="@{/css/my-styles.css}" />
       <link rel="stylesheet" media="screen" th:href="@{/css/table-style.css}" />
@@ -26,29 +26,46 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
       <![endif]-->
       <!-- jQuery -->
-      <script th:src="@{/js/new-item-form.js}"></script>
-      <script th:src="@{/js/jquery.js}"></script>
+      <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+      <script type="text/javascript" th:src="@{/js/new-item-form.js}"></script>
+      <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+      <script type="text/javascript" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
       <script>
-         $(function() {
-             $('#menu-frame').load('../../menu-frame.html');
-         });
+      
          $(document).ready(function() {
              $(".button").click(function() {
-                 $("#sForm").toggleClass("open");
+                 $("#sForm_per").toggleClass("open");
              });
          
              $(".controlTd").click(function() {
                  $(this).children(".settingsIcons").toggleClass("display");
                  $(this).children(".settingsIcon").toggleClass("openIcon");
              });
+             
+            
+             $('.datepicker').datepicker({
+            		 format: 'mm-dd-yyyy',
+            		    startDate: '-3d'
+             });
          });
+         
+    function openUpdateForm(elem){
+         $("#sForm_per_up").toggleClass("open");
+//     	$("#updateFormPersonId").value= id;
+var alma = document.getElementById(elem.id);
+alert(alma.parentElement.parentElement.parentElement.parentElement.cells[0].innerText)
+
+alert(alma.parentElement.parentElement.parentElement.parentElement.cells[1].innerText)
+
+         var elem = document.getElementById("updateFormPersonId").setAttribute("value", elem.id);
+    }
+      
          
       </script>
    </head>
    <body>
       <div id="wrapper">
-         <div th:include="fragments/menu-frame :: menu">
-         </div>
+         <div th:include="fragments/menu-frame :: menu"></div>
          <div id="page-wrapper" style="background-color:#EDEFF0">
             <div class="container-fluid">
                <!-- Page Heading -->
@@ -79,7 +96,7 @@
                      <td class="titleTd" style="font-size:20px">
                         Személyek
                      </td>
-                     <td colspan="4">
+                     <td colspan="5">
                      </td>
                      <td class="plusTd button">
                      </td>
@@ -90,6 +107,9 @@
                      </td>
                      <td>
                         Név
+                     </td>
+                        <td>
+                        Sport
                      </td>
                      <td>
                         Születési idő
@@ -112,8 +132,11 @@
                            <p th:text=" ${person.name} " />
                         </a>
                      </td>
+                       <td>
+                        <p th:text=" ${person.sport.name} " />
+                     </td>
                      <td>
-                        <p th:text="${person.age}" />
+                        <p th:text="${#dates.format(person.age, 'yyyy-MM-dd')}" />
                      </td>
                      <td>
                         <p th:text=" ${person.address} " />
@@ -130,77 +153,16 @@
                            </span>
                            <div class="settingsIcon">
                               <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
+
+                           <a  th:id=${person.id} onclick="openUpdateForm(this)" ><span>Update</span></a>
                            </div>
                         </div>
                      </td>
                   </tr>
                </table>
-               <div id="sForm" class="sForm sFormPadding ">
-                  <div>
-                     <span class="button close">
-                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
-                     </span>
-                  </div>
-                  <div class="form">
-                     <div id="signup">
-                        <h1> Új elem felvétele</h1>
-                        <form action="#" th:action="@{/person/new}" th:object="${person}"  method="post" >
-                           <div class="top-row">
-                              <div class="field-wrap">
-                                 <label>
-                                 Név<span class="req">*</span>
-                                 </label>
-                                 <input type="text" required autocomplete="off" th:field="*{name}"/>
-                              </div>
-                              <div class="field-wrap">
-                                 <label>
-                                 Születési idő<span class="req">*</span>
-                                 </label>
-                                 <input type="text" id="datepicker"  autocomplete="off" th:field="*{birthDate}"/>
-                              </div>
-                           </div>
-                           <div class="field-wrap">
-                              <label>
-                              Cím<span class="req">*</span>
-                              </label>
-                              <input type="text"required autocomplete="off" th:field="*{address}"/>
-                           </div>
-                           <button type="submit" class="button button-block">Felvétel</button>
-                        </form>
-                     </div>
-                  </div>
-                  <script>
-                     $('.form').find('input, textarea').on('keyup blur focus', function (e) {
-                     
-                     var $this = $(this),
-                         label = $this.prev('label');
-                     
-                      if (e.type === 'keyup') {
-                     	if ($this.val() === '') {
-                             label.removeClass('active highlight');
-                           } else {
-                             label.addClass('active highlight');
-                           }
-                       } else if (e.type === 'blur') {
-                       	if( $this.val() === '' ) {
-                       		label.removeClass('active highlight'); 
-                     	} else {
-                         label.removeClass('highlight');   
-                     	}   
-                       } else if (e.type === 'focus') {
-                         
-                         if( $this.val() === '' ) {
-                       		label.removeClass('highlight'); 
-                     	} 
-                         else if( $this.val() !== '' ) {
-                         label.addClass('highlight');
-                     	}
-                       }
-                     
-                     });
-                  </script>
-               </div>
-               <!-- tab-content -->
+             <div th:include="fragments/forms :: newPerson"></div>
+              <div th:include="fragments/forms :: updatePerson"></div>
+                  <!-- tab-content -->
             </div>
             <!-- /form -->
          </div>
@@ -209,6 +171,7 @@
          <br>
          <br>
          <br>
+
   
       <!-- /.row -->
       <!-- /.container-fluid -->
@@ -216,6 +179,5 @@
       <!-- /#page-wrapper -->
       <!-- /#wrapper -->
       <!-- Bootstrap Core JavaScript -->
-      <script th:src="@{/js/bootstrap.min.js}"></script>
    </body>
 </html>

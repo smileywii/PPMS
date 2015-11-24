@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Result implements Serializable {
@@ -23,6 +25,8 @@ public class Result implements Serializable {
   @Column(name = "result_id")
   private long id;
 
+  @NotNull
+  @Min(1)
   private int position;
 
   @OneToOne
@@ -37,7 +41,7 @@ public class Result implements Serializable {
   @JoinColumn(name = "sport_id")
   private Sport sport;
 
-  protected Result() {
+  public Result() {
   }
 
   public Result(int position, Event event, Person person, Sport sport) {
@@ -52,14 +56,6 @@ public class Result implements Serializable {
   public String toString() {
     return String.format("Results[id=%d, position='%s', event='%s', person='%s', sport='%s']", id, getPosition(),
         event, person, sport);
-  }
-
-  public int getposition() {
-    return getPosition();
-  }
-
-  public void setposition(int position) {
-    this.setPosition(position);
   }
 
   public Event getEvent() {

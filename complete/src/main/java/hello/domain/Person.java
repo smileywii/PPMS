@@ -11,8 +11,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
@@ -45,6 +46,11 @@ public class Person implements Serializable {
   @Size(min = 1, max = 45)
   private String address;
 
+  // @NotNull
+  @OneToOne
+  @JoinColumn(name = "sport_id")
+  private Sport sport;
+
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "person")
   private List<Result> results;
 
@@ -57,13 +63,13 @@ public class Person implements Serializable {
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "person")
   private List<TrainingMethod> trainingMethod;
 
-  @ManyToMany(targetEntity = hello.domain.MemberList.class)
-  private List<MemberList> memberships;
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "person")
+  private List<Membership> memberships;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "person")
   private List<UsedSupplement> usedSupplementsList;
 
-  protected Person() {
+  public Person() {
   }
 
   public Person(String name, Date date, String address) {
@@ -72,9 +78,17 @@ public class Person implements Serializable {
     this.address = address;
   }
 
+  public Person updatePerson(Person person) {
+    this.name = person.name;
+    this.birthDate = person.birthDate;
+    this.address = person.address;
+    this.sport = person.getSport();
+    return this;
+  }
+
   @Override
   public String toString() {
-    return String.format("People[id=%d, firstName='%s', age='%s', address='%s']", id, name, birthDate, address);
+    return String.format("People[id=%d, firstName='%s', age='%s', address='%s']", getId(), name, birthDate, address);
   }
 
   public String getName() {
@@ -113,11 +127,11 @@ public class Person implements Serializable {
     this.birthDate = birthDate;
   }
 
-  public List<MemberList> getMemberships() {
+  public List<Membership> getMemberships() {
     return memberships;
   }
 
-  public void setMemberships(List<MemberList> memberships) {
+  public void setMemberships(List<Membership> memberships) {
     this.memberships = memberships;
   }
 
@@ -159,6 +173,18 @@ public class Person implements Serializable {
 
   public void setUsedSupplementsList(List<UsedSupplement> usedSupplementsList) {
     this.usedSupplementsList = usedSupplementsList;
+  }
+
+  public Sport getSport() {
+    return sport;
+  }
+
+  public void setSport(Sport sport) {
+    this.sport = sport;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   // public MemberList getMembership() {

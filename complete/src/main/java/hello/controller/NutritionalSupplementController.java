@@ -1,7 +1,7 @@
 package hello.controller;
 
-import hello.domain.Sport;
-import hello.repository.SportRepository;
+import hello.domain.NutritionalSupplement;
+import hello.service.NutritionalSupplementService;
 
 import javax.validation.Valid;
 
@@ -15,37 +15,35 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/sport")
-public class SportController {
+@RequestMapping("/supplement")
+public class NutritionalSupplementController {
 
   @Autowired
-  SportRepository sportRepository;
+  NutritionalSupplementService nutritionalSupplementService;
 
   @RequestMapping()
-  public String greeting(@RequestParam(value = "name", required = false, defaultValue = "World") String name,
-      Sport sport, Model model) {
-    model.addAttribute("sports", sportRepository.findAll());
-    return "sport/sport";
+  public String index(@RequestParam(value = "name", required = false, defaultValue = "World") String name,
+      NutritionalSupplement nuttritionalSupplement, Model model) {
+    model.addAttribute("supplements", nutritionalSupplementService.findAll());
+    return "supplement/supplement";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public String newPerson(@Valid Sport sport, BindingResult bindingResult, Model model) {
-    System.out.println(sport.getName());
-    System.out.println(bindingResult.getErrorCount());
-    System.out.println(bindingResult.getFieldError());
+  public String newSupplement(@Valid NutritionalSupplement nutritionalSupplement, BindingResult bindingResult,
+      Model model) {
 
     if (bindingResult.getErrorCount() == 0) {
-      sportRepository.save(sport);
+      nutritionalSupplementService.save(nutritionalSupplement);
     }
 
-    return "redirect:/sport";
+    return "redirect:/supplement";
   }
 
   @RequestMapping("/delete/{id}")
   public String delete(@RequestParam(value = "name", required = false, defaultValue = "World") String name,
       Model model, @PathVariable Long id) {
-    sportRepository.delete(id);
-    return "redirect:/sport";
+    nutritionalSupplementService.delete(id);
+    return "redirect:/supplement";
   }
 
 }

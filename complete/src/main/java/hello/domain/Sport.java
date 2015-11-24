@@ -27,7 +27,7 @@ public class Sport implements Serializable {
   @Size(min = 1, max = 45)
   private String name;
 
-  protected Sport() {
+  public Sport() {
   }
 
   public Sport(String name) {
@@ -49,6 +49,10 @@ public class Sport implements Serializable {
 
   public long getId() {
     return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
 }

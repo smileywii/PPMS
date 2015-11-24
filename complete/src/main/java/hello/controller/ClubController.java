@@ -1,7 +1,11 @@
 package hello.controller;
 
 import hello.domain.Club;
+import hello.domain.IdHolder;
+import hello.domain.Sport;
 import hello.service.ClubService;
+import hello.service.MembershipService;
+import hello.service.SportService;
 
 import javax.validation.Valid;
 
@@ -21,22 +25,38 @@ public class ClubController {
   @Autowired
   ClubService clubService;
 
+  @Autowired
+  MembershipService memberListService;
+
+  @Autowired
+  SportService sportService;
+
   @RequestMapping()
-  public String tables( String name, Model model, Club club) {
+  public String tables(String name, Model model, Club club) {
+    model.addAttribute("sportId", new IdHolder());
+    model.addAttribute("allSport", sportService.findAll());
     model.addAttribute("clubs", clubService.findAll());
+
     return "club/club";
   }
 
   @RequestMapping("/show/{id}")
-  public String show( String name, Model model, @PathVariable Long id) {
+  public String show(String name, Model model, @PathVariable Long id) {
     Club club = clubService.findOne(id);
     model.addAttribute("club", club);
+    // TODO
+    // model.addAttribute("members", memberListService.fi.get());
+
     return "club/show";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public String newClub(@Valid Club club, BindingResult bindingResult, Model model) {
-    if (bindingResult.getErrorCount() == 0) {
+  public String newClub(@Valid Club club, BindingResult clubBinding, @Valid IdHolder sportId,
+      BindingResult sportBinding, Model model) {
+
+    if (clubBinding.getErrorCount() == 0 && clubBinding.getErrorCount() == 0) {
+      Sport sport = sportService.findOne(sportId.getId());
+      club.setSport(sport);
       clubService.save(club);
     }
 
@@ -44,7 +64,8 @@ public class ClubController {
   }
 
   @RequestMapping("/delete/{id}")
-  public String delete(String name,  Model model, @PathVariable Long id) {
+  public String delete(@RequestParam(value = "name", required = false, defaultValue = "World") String name,
+      Model model, @PathVariable Long id) {
     clubService.delete(id);
     return "redirect:/club";
   }

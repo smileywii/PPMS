@@ -11,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class NutritionalSupplement implements Serializable {
@@ -25,10 +28,24 @@ public class NutritionalSupplement implements Serializable {
   @Column(name = "supplement_id")
   private long id;
 
+  @NotNull
+  @Size(min = 1, max = 45)
   private String name;
+
+  @NotNull
+  @Size(min = 1, max = 45)
   private String brand;
+
+  @NotNull
+  @Min(1)
   private int quantity;
+
+  @NotNull
+  @Size(min = 1, max = 45)
   private String unit;
+
+  @NotNull
+  @Min(1)
   private int price;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "supplement")
@@ -70,6 +87,10 @@ public class NutritionalSupplement implements Serializable {
 
   public String getUnit() {
     return unit;
+  }
+
+  public long getId() {
+    return id;
   }
 
   public void setUnit(String unit) {

@@ -79,7 +79,7 @@
                      <td class="titleTd" style="font-size:20px">
                         Sportok
                      </td>
-                     <td colspan="4">
+                     <td colspan="3">
                      </td>
                      <td class="plusTd button">
                      </td>
@@ -91,16 +91,13 @@
                      <td>
                         Név
                      </td>
-                     <td>
-                        Születési idő
-                     </td>
-                     <td>
-                        Cím
-                     </td>
+                    
                      <td>
                         Műveletek
                      </td>
-                     <td>
+                <td>
+                     </td>
+                       <td>
                      </td>
                   </tr>
                   <tr th:each="sport : ${sports}">
@@ -111,6 +108,9 @@
                         <p th:text="${sport.name}" />
                      </td>
                      <td>
+                     </td>
+                       <td>
+                     </td>
                      <td class="controlTd">
                         <div class="settingsIcons">
                            <span class="settingsIcon">
@@ -197,4 +197,4 @@
       <!-- Bootstrap Core JavaScript -->
       <script th:src="@{/js/bootstrap.min.js}"></script>
    </body>
-</html>
+`</html>

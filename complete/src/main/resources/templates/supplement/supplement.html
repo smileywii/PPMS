@@ -28,10 +28,9 @@
       <!-- jQuery -->
       <script th:src="@{/js/new-item-form.js}"></script>
       <script th:src="@{/js/jquery.js}"></script>
+      <script th:src="@{/js/bootstrap.min.js}"></script>
       <script>
-         $(function() {
-             $('#menu-frame').load('../../menu-frame.html');
-         });
+       
          $(document).ready(function() {
              $(".button").click(function() {
                  $("#sForm").toggleClass("open");
@@ -77,7 +76,7 @@
                <table class="flatTable">
                   <tr class="titleTr">
                      <td class="titleTd" style="font-size:20px">
-                        Sportok]
+                       Táplálékkiegészítő
                      </td>
                      <td colspan="4">
                      </td>
@@ -85,32 +84,43 @@
                      </td>
                   </tr>
                   <tr class="headingTr">
-                     <td>
-                        Sorszám
-                     </td>
+                   
                      <td>
                         Név
                      </td>
                      <td>
-                        Születési idő
+                        Márka
                      </td>
                      <td>
-                        Cím
+                        Mennyiség
                      </td>
                      <td>
-                        Műveletek
+                       Mértékegység
                      </td>
                      <td>
+                     Ár
+                     </td>
+                     <td>
+                     Műveletek
                      </td>
                   </tr>
-                  <tr th:each="sport : ${sports}">
+                  <tr th:each="supplement : ${supplements}">
+                    
                      <td>
-                        <p th:text=" ${sport.id} " />
+                        <p th:text="${supplement.name}" />
                      </td>
+                        <td>
+                        <p th:text="${supplement.brand}" />
+                     </td>   
                      <td>
-                        <p th:text="${sport.name}" />
+                        <p th:text="${supplement.quantity}" />
+                     </td>   
+                     <td>
+                        <p th:text="${supplement.unit}" />
+                     </td>   
+                     <td>
+                        <p th:text="${supplement.price}" />
                      </td>
-                     <td>
                      <td class="controlTd">
                         <div class="settingsIcons">
                            <span class="settingsIcon">
@@ -118,7 +128,7 @@
                            </span>
                            <span class="settingsIcon">
                            <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                           <a  th:href="@{/sport/delete/{id}(id=${sport.id})}"><span>Delete</span></a>
+                           <a  th:href="@{/supplement/delete/{id}(id=${supplement.id})}"><span>Delete</span></a>
                            </span>
                            <div class="settingsIcon">
                               <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
@@ -136,13 +146,37 @@
                   <div class="form">
                      <div id="signup">
                         <h1> Új elem felvétele</h1>
-                        <form action="#" th:action="@{/sport/new}" th:object="${sport}"  method="post" >
+                        <form action="#" th:action="@{/supplement/new}" th:object="${nutritionalSupplement}"  method="post" >
                            <div class="top-row">
                               <div class="field-wrap">
                                  <label>
                                  Név<span class="req">*</span>
                                  </label>
                                  <input type="text" required autocomplete="off" th:field="*{name}"/>
+                              </div>
+                              <div class="field-wrap">
+                                 <label>
+                                Márka<span class="req">*</span>
+                                 </label>
+                                 <input type="text" required autocomplete="off" th:field="*{brand}"/>
+                              </div>
+                              <div class="field-wrap">
+                                 <label>
+                                 Mennyiség<span class="req">*</span>
+                                 </label>
+                                 <input type="text" required autocomplete="off" th:field="*{quantity}"/>
+                              </div>
+                              <div class="field-wrap">
+                                 <label>
+                                 Mértékegység<span class="req">*</span>
+                                 </label>
+                                 <input type="text" required autocomplete="off" th:field="*{unit}"/>
+                              </div>
+                              <div class="field-wrap">
+                                 <label>
+                                Ár<span class="req">*</span>
+                                 </label>
+                                 <input type="text" required autocomplete="off" th:field="*{price}"/>
                               </div>
                               <button type="submit" class="button button-block">Felvétel</button>
                         </form>
@@ -188,26 +222,12 @@
             <br>
             <br>
             <br>
-            <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-            <div class="col-lg-6">
-               <h2>
-                  Bootstrap Docs
-               </h2>
-               <p>
-                  For complete documentation, please visit
-                  <a target="_blank" href="http://getbootstrap.com/css/#tables">
-                  Bootstrap's Tables Documentation
-                  </a> .
-               </p>
-            </div>
-         </div>
+           
          <!-- /.row -->
-      </div>
       <!-- /.container-fluid -->
       </div>
       <!-- /#page-wrapper -->
       <!-- /#wrapper -->
       <!-- Bootstrap Core JavaScript -->
-      <script th:src="@{/js/bootstrap.min.js}"></script>
    </body>
 </html>

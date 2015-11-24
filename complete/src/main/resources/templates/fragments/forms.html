@@ -1,0 +1,236 @@
+<!----------------------------------------Person--------------------------------------->
+<div th:fragment="newPerson">
+    <div id="sForm_per" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új elem felvétele</h1>
+                <form action="#" th:action="@{/person/new}"  method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <label>
+                                Név<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{person.name}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Születési idő<span class="req">*</span>
+                            </label>
+                            <input  autocomplete="off" th:field="*{person.birthDate}" />
+                        </div>
+                    </div>
+                    <div class="field-wrap">
+                        <label>
+                            Cím<span class="req">*</span>
+                        </label>
+                        <input type="text" required autocomplete="off" th:field="*{person.address}" />
+                    </div>
+                    
+				
+                    
+                     <select id="allclub"  name="clubtList" th:field="*{clubId.id}">
+                     		<option th:value="0" th:text="---">
+  							 <option th:each="club : ${allClub}" th:value="${club.id}" th:text="${club.name}"  />
+                		</select>
+                		
+                		
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!----------------------------------------Result--------------------------------------->
+<div th:fragment="newResult">
+    <div id="sForm_res" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új elem felvétele</h1>
+                <form action="#" th:action="@{/person/newResult}" th:object="${result}" method="post">
+                    <div class="top-row">
+               
+                        
+                        <select id="eventList"  name="eventListId" th:field="${result.position}">
+  							 <option th:each="event : ${allEvent}" th:value="${event.id}" th:text="${event.name}"  />
+                		</select>
+  
+                    </div>
+                   
+
+
+
+
+
+                  
+                    
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+                                 
+<!----------------------------------------Club--------------------------------------->
+<div th:fragment="newClub">
+    <div id="sForm_club" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új klub felvétele</h1>
+                <form action="#" th:action="@{/club/new}"  method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <label>
+                                Klub neve<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{club.name}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Központ<span class="req">*</span>
+                            </label>
+                            <input type="text" id="datepicker" autocomplete="off" th:field="*{club.headquarter}" />
+                        </div>
+                    </div>
+                    
+                     <select id="allsport"  name="allsporttId" th:field="*{sportId.id}">
+  							 <option th:each="sport : ${allSport}" th:value="${sport.id}" th:text="${sport.name}"  />
+                		</select>
+                		
+                		
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!----------------------------------------PersonClub--------------------------------------->
+<div th:fragment="newClubForPerson">
+    <div id="sForm_per_club_new" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új klub hozzáadása</h1>
+                <form action="#" th:action="@{/person/{id}/newclub(id=${person.id})}"  method="post">
+                    <div class="top-row">
+                       
+                        <div class="field-wrap">
+                            <label>
+                                Tagság kezdete<span class="req">*</span>
+                            </label>
+                            <input type="text" id="datepicker" autocomplete="off" th:field="*{dateholder.startDate}" />
+                        </div>
+                        
+                         <div class="field-wrap">
+                            <label>
+                                Tagság vége<span class="req">*</span>
+                            </label>
+                            <input type="text" id="datepicker" autocomplete="off" th:field="*{dateholder.endDate}" />
+                        </div>
+                        
+                    </div>
+              
+				
+                    <div class="field-wrap">
+                     <select id="allclub"  name="clubtList" th:field="*{idholder.id}">
+                     		<option th:value="0" th:text="---">
+  							 <option th:each="club : ${allClub}" th:value="${club.id}" th:text="${club.name}"  />
+                		</select>
+                		</div>
+                		
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<!----------------------------------------UPDATE--------------------------------------->
+
+
+<!----------------------------------------Person--------------------------------------->
+<div th:fragment="updatePerson">
+    <div id="sForm_per_up" class="sForm sFormPadding " >
+        <div>
+            <span class="button close" >
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1>  Elem módosítása</h1>
+                <form action="#" th:action="@{/person/update}"  method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <label>
+                                <p th:text="@{person.name}"/>Név<span class="req">*</span>
+                            </label>
+                            <input type="text"  required autocomplete="off" th:field="*{person.name}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Születési idő<span class="req">*</span>
+                            </label>
+                            <input type="text" id="datepicker" autocomplete="off" th:field="*{person.birthDate}" />
+                        </div>
+                    </div>
+                    <div class="field-wrap">
+                        <label>
+                            Cím<span class="req">*</span>
+                        </label>
+                        <input type="text" required autocomplete="off" th:field="*{person.address}" />
+                    </div>
+                            <div class="hidden">
+                        <input type="text"required id="updateFormPersonId" autocomplete="off" th:field="*{sportId.secondaryId}" />
+                    </div>
+                     <select id="allsport"  name="sportList" th:field="*{sportId.id}">
+  							 <option th:each="sport : ${allSport}" th:value="${sport.id}" th:text="${sport.name}"  />
+                		</select>
+                		
+             
+				
+           
+                		
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+                                 

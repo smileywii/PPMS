@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>
-        SB Admin - Bootstrap Admin Template
+        People Performance Management System
     </title>
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
@@ -16,23 +16,19 @@
     <link rel="stylesheet" media="screen" th:href="@{/css/sb-admin.css}" />
     <link rel="stylesheet" media="screen" th:href="@{/css/my-styles.css}" />
     <link rel="stylesheet" media="screen" th:href="@{/css/table-style.css}" />
-    <link rel="stylesheet" media="screen" th:href="@{/css/my-styles3.css}" />
+    <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap-select.min.css}" />
 
     <link rel="stylesheet" media="screen" th:href="@{/css/new-item-form-style.css}" />
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" media="screen" th:href="@{/font-awesome/css/font-awesome.min.css}" />
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-      <![endif]-->
+ 
     <!-- jQuery -->
     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
 
     <script type="text/javascript" th:src="@{/js/new-item-form.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.idTabs.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap-select.min.js}"></script>
     <script>
         $(document).ready(function() {
             $(".button").click(function() {
@@ -45,18 +41,24 @@
                         break;
                     case "tab2":
                         $("#sForm_res").toggleClass("open");
+                        var personId = document.getElementById("personIdLabel").innerText;
+                        document.getElementById("newResultFormPersonId").setAttribute("value", personId);
                         break;
                     case "tab3":
                         $("#sForm_sdev").toggleClass("open");
                         break;
                     case "tab4":
                         $("#sForm_pdev").toggleClass("open");
+                        var personId = document.getElementById("personIdLabel").innerText;
+                        document.getElementById("newPhysicalDevFormPersonId").setAttribute("value", personId);
                         break;
                     case "tab5":
                         $("#sForm_train").toggleClass("open");
                         break;
                     case "tab6":
-                        $("#sForm_supp").toggleClass("open");
+                        $("#sForm_per_supp_new").toggleClass("open");
+                        var personId = document.getElementById("personIdLabel").innerText;
+                        document.getElementById("newSupplementForPersonFormPersonId").setAttribute("value", personId);
                         break;
                     case "tab7":
                         $("#sForm_per_club_new").toggleClass("open");
@@ -70,7 +72,23 @@
                 $(this).children(".settingsIcons").toggleClass("display");
                 $(this).children(".settingsIcon").toggleClass("openIcon");
             });
+            
         });
+            function openUpdateResultForm(elem) {
+                $("#sForm_res_up").toggleClass("open");
+                document.getElementById("updateResultFormResultId").setAttribute("value", elem.id);
+            }
+            
+            function openUpdatePhysicalDevForm(elem) {
+                $("#sForm_pdev_up").toggleClass("open");
+                document.getElementById("updatePhysicalDevFormPersonId").setAttribute("value", elem.id);
+            }
+            
+            
+            function openUpdateSuppForPersonForm(elem) {
+                $("#sForm_per_supp_up").toggleClass("open");
+                document.getElementById("updateSupplementFormSuppId").setAttribute("value", elem.id);
+            }
     </script>
 </head>
 
@@ -95,7 +113,7 @@
                             </li>
                             <li class="active">
                                 <i class="fa fa-table">
-                           </i> Tables
+                           </i> Személy
                             </li>
                         </ol>
                     </div>
@@ -153,7 +171,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p th:text=" ${person.id} " />
+                                    <p id="personIdLabel" th:text=" ${person.id} " />
                                 </td>
                                 <td>
                                     <a th:href="@{/person/show/{id}(id=${person.id})}">
@@ -164,7 +182,7 @@
                                     <p th:text=" ${person.sport.name} " />
                                 </td>
                                 <td>
-                                    <p th:text="${person.age}" />
+                                    <p th:text=" ${#dates.format(person.birthDate, 'yyyy-MM-dd')} " />
                                 </td>
                                 <td>
                                     <p th:text=" ${person.address} " />
@@ -215,8 +233,6 @@
                                 <td>
                                     Műveletek
                                 </td>
-                                <td>
-                                </td>
                             </tr>
                             <tr th:each="result : ${results}">
                                 <td>
@@ -229,27 +245,30 @@
                                     <p th:text=" ${result.getEvent().getName()} " />
                                 </td>
                                 <td>
-                                    <p th:text=" ${result.getEvent().getDate()} " />
+                                    <p th:text=" ${#dates.format(result.getEvent().getDate(), 'yyyy-MM-dd')} " />
                                 </td>
                                 <td>
                                     <p th:text=" ${result.getSport().getName()} " />
                                 </td>
-                                <td class="controlTd">
-                                    <div class="settingsIcons">
-                                        <span class="settingsIcon">
-                                 <img src="http://i.imgur.com/nnzONel.png" alt="X" />
-                                 </span>
-                                        <span class="settingsIcon">
-                                 <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                                 </span>
-                                        <div class="settingsIcon">
-                                            <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                                        </div>
+                                  <td class="controlTd">
+                                <div class="settingsIcons">
+                                    <span class="settingsIcon">
+                         			 <img src="http://i.imgur.com/nnzONel.png" alt="X" />
+                           			</span>
+                                    <div class="settingsIcon">
+                                        <a class="glyphicon  glyphicon-remove-sign" th:href="@{/result/delete/{id}(id=${result.id})}"><span></span></a>
                                     </div>
-                                </td>
+
+                                    <div class="settingsIcon">
+                                        <a class="glyphicon glyphicon-pencil" th:id=${result.id} onclick="openUpdateResultForm(this)"><span></span></a>
+                                    </div>
+
+                                </div>
+                            </td>
                             </tr>
                         </table>
                         <div th:include="fragments/forms :: newResult"></div>
+                        <div th:include="fragments/forms :: updateResult"></div>
            
                     </div>
                         <!----------------------------------------Result--------------------------------------->
@@ -283,8 +302,6 @@
                                 <td>
                                     Műveletek
                                 </td>
-                                <td>
-                                </td>
                             </tr>
                             <tr th:each="sportdev : ${sportdevs}">
                                 <td>
@@ -294,7 +311,7 @@
                                     <p th:text=" ${sportdev.getSport().getName()} " />
                                 </td>
                                 <td>
-                                    <p th:text=" ${sportdev.date} " />
+                                    <p th:text="${#dates.format(sportdev.date, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
                                     <p th:text=" ${sportdev.time} " />
@@ -335,8 +352,8 @@
 
 
 
+                        <!----------------------------------------PhysicalDev--------------------------------------->
                     <div id="tab4">
-                        <!----------------------------------------Table--------------------------------------->
                         <table class="flatTable">
                             <tr class="headingTr">
                                 <td>
@@ -360,7 +377,8 @@
                                 <td>
                                     Testzsir%
                                 </td>
-                                <td>
+                                 <td>
+                                    Műveletek
                                 </td>
                             </tr>
                             <tr th:each="physicaldev : ${physicaldevs}">
@@ -371,7 +389,7 @@
                                     <p th:text=" ${physicaldev.getSport().getName()} " />
                                 </td>
                                 <td>
-                                    <p th:text=" ${physicaldev.date} " />
+                                <p th:text="${#dates.format(physicaldev.date, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
                                     <p th:text=" ${physicaldev.bloodPressure} " />
@@ -385,31 +403,27 @@
                                 <td>
                                     <p th:text=" ${physicaldev.bodyFat} " />
                                 </td>
-                                <td class="controlTd">
-                                    <div class="settingsIcons">
-                                        <span class="settingsIcon">
-                                 <img src="http://i.imgur.com/nnzONel.png" alt="X" />
-                                 </span>
-                                        <span class="settingsIcon">
-                                 <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                                 </span>
-                                        <div class="settingsIcon">
-                                            <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                                        </div>
+                                 <td class="controlTd">
+                                <div class="settingsIcons">
+                                    <span class="settingsIcon">
+                         			 <img src="http://i.imgur.com/nnzONel.png" alt="X" />
+                           			</span>
+                                    <div class="settingsIcon">
+                                        <a class="glyphicon  glyphicon-remove-sign" th:href="@{/physicalDevelopment/delete/{id}(id=${physicaldev.id})}"><span></span></a>
                                     </div>
-                                </td>
+
+                                    <div class="settingsIcon">
+                                        <a class="glyphicon glyphicon-pencil" th:id=${physicaldev.id} onclick="openUpdatePhysicalDevForm(this)"><span></span></a>
+                                    </div>
+
+                                </div>
+                            </td>
                             </tr>
                         </table>
-                        <div id="sForm" class="sForm sFormPadding ">
-                            <h3 class="title">
-                           Új elem felvétele
-                        </h3>
-                            <span class="button close">
-                        <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
-                        </span>
-                        </div>
-                        <!----------------------------------------Table--------------------------------------->
+                       <div th:include="fragments/forms :: newPhysicalDev"></div>
+                       <div th:include="fragments/forms :: updatePhysicalDev"></div>
                     </div>
+                        <!----------------------------------------Table--------------------------------------->
 
 
 
@@ -434,7 +448,6 @@
                                 <td>
                                     Befejezés dátuma
                                 </td>
-
                                 <td>
                                     Műveletek
                                 </td>
@@ -450,10 +463,10 @@
                                     <p th:text=" ${trainingmethod.name} " />
                                 </td>
                                 <td>
-                                    <p th:text=" ${trainingmethod.startDate} " />
+                                    <p th:text="${#dates.format(trainingmethod.startDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
-                                    <p th:text=" ${trainingmethod.endDate} " />
+                                 <p th:text="${#dates.format(trainingmethod.endDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td class="controlTd">
                                     <div class="settingsIcons">
@@ -486,7 +499,7 @@
 
 
                     <div id="tab6">
-                        <!----------------------------------------Table--------------------------------------->
+                        <!----------------------------------------Supplement--------------------------------------->
                         <table class="flatTable">
                             <tr class="headingTr">
                                 <td>
@@ -504,7 +517,6 @@
                                 <td>
                                     Befejezés dátuma
                                 </td>
-
                                 <td>
                                     Műveletek
                                 </td>
@@ -520,34 +532,29 @@
                                     <p th:text=" ${usedsupp.dailyDosage} " />
                                 </td>
                                 <td>
-                                    <p th:text=" ${usedsupp.startDate} " />
+                                <p th:text="${#dates.format(usedsupp.startDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
-                                    <p th:text=" ${usedsupp.endDate} " />
+                                <p th:text="${#dates.format(usedsupp.endDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td class="controlTd">
-                                    <div class="settingsIcons">
-                                        <span class="settingsIcon">
-                                 <img src="http://i.imgur.com/nnzONel.png" alt="X" />
-                                 </span>
-                                        <span class="settingsIcon">
-                                 <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                                 </span>
-                                        <div class="settingsIcon">
-                                            <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                                        </div>
+                                <div class="settingsIcons">
+                                    <span class="settingsIcon">
+                         			 <img src="http://i.imgur.com/nnzONel.png" alt="X" />
+                           			</span>
+                                    <div class="settingsIcon">
+                                        <a class="glyphicon  glyphicon-remove-sign" th:href="@{/usedSupp/delete/{id}(id=${usedsupp.id})}"><span></span></a>
                                     </div>
-                                </td>
+
+                                    <div class="settingsIcon">
+                                        <a class="glyphicon glyphicon-pencil" th:id=${usedsupp.id} onclick="openUpdateSuppForPersonForm(this)"><span></span></a>
+                                    </div>
+                                </div>
+                            </td>
                             </tr>
                         </table>
-                        <div id="sForm" class="sForm sFormPadding ">
-                            <h3 class="title">
-                           Új elem felvétele
-                        </h3>
-                            <span class="button close">
-                        <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
-                        </span>
-                        </div>
+                         <div th:include="fragments/forms :: newSupplementForPerson"></div>
+                         <div th:include="fragments/forms :: updateSupplementForPerson"></div>
                         <!----------------------------------------Table--------------------------------------->
                     </div>
 
@@ -571,11 +578,8 @@
                                 <td>
                                     Tagság vége
                                 </td>
-
                                 <td>
                                     Műveletek
-                                </td>
-                                <td>
                                 </td>
                             </tr>
                             <tr th:each="membership : ${memberships}">
@@ -587,10 +591,10 @@
                                 </td>
 
                                 <td>
-                                    <p th:text=" ${membership.startDate} " />
+                                    <p th:text="${#dates.format(membership.startDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
-                                    <p th:text=" ${membership.endDate} " />
+                                    <p th:text="${#dates.format(membership.endDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td class="controlTd">
                                     <div class="settingsIcons">

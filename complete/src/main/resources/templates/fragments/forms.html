@@ -9,33 +9,33 @@
         <div class="form">
             <div id="signup">
                 <h1> Új elem felvétele</h1>
-                <form action="#" th:action="@{/person/new}"  method="post">
+                <form action="#" th:action="@{/person/new}"  th:object="${newPersonDTO}" method="post">
                     <div class="top-row">
                         <div class="field-wrap">
                             <label>
                                 Név<span class="req">*</span>
                             </label>
-                            <input type="text" required autocomplete="off" th:field="*{person.name}" />
+                            <input type="text" required autocomplete="off" th:field="*{name}" />
                         </div>
                         <div class="field-wrap">
                             <label>
                                 Születési idő<span class="req">*</span>
                             </label>
-                            <input  autocomplete="off" th:field="*{person.birthDate}" />
+                            <input  autocomplete="off" th:field="*{birthDate}" />
                         </div>
                     </div>
                     <div class="field-wrap">
                         <label>
                             Cím<span class="req">*</span>
                         </label>
-                        <input type="text" required autocomplete="off" th:field="*{person.address}" />
+                        <input type="text" required autocomplete="off" th:field="*{address}" />
                     </div>
                     
 				
                     
-                     <select id="allclub"  name="clubtList" th:field="*{clubId.id}">
-                     		<option th:value="0" th:text="---">
-  							 <option th:each="club : ${allClub}" th:value="${club.id}" th:text="${club.name}"  />
+                     <select id="allclub"  name="clubList" th:field="*{clubId}">
+                     		 <option th:value="0" th:text="---">
+  							 <option th:each="club : ${allClub}" th:value="${club.id}" th:text="${club.name}  + ' - ' + ${club.sport.name} "  />
                 		</select>
                 		
                 		
@@ -47,6 +47,38 @@
     </div>
 </div>
 
+
+<!----------------------------------------Sport--------------------------------------->
+<div th:fragment="newSport">
+    <div id="sForm_sport" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új Sport felvétele</h1>
+                <form action="#" th:action="@{/sport/new}"  th:object="${newSportDTO}" method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                           <label>
+                                Sport Neve<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{name}" />
+                  		</div>
+                    </div>
+				
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
 <!----------------------------------------Result--------------------------------------->
 <div th:fragment="newResult">
     <div id="sForm_res" class="sForm sFormPadding ">
@@ -57,24 +89,141 @@
         </div>
         <div class="form">
             <div id="signup">
-                <h1> Új elem felvétele</h1>
-                <form action="#" th:action="@{/person/newResult}" th:object="${result}" method="post">
+                <h1> Új eredmény felvétele</h1>
+                <form action="#" th:action="@{/person/newResult}" th:object="${newResultDTO}" method="post">
                     <div class="top-row">
                
+                <div class="field-wrap">
+                            <label>
+                                Helyezés<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{position}" />
+                        </div>
                         
-                        <select id="eventList"  name="eventListId" th:field="${result.position}">
-  							 <option th:each="event : ${allEvent}" th:value="${event.id}" th:text="${event.name}"  />
+                      
+                        
+                        <select id="eventList"  name="eventListId" th:field="*{eventId}">
+  							 <option th:each="event : ${allPossibleEvent}" th:value="${event.id}" th:text="${event.name} + ' - ' + ${#dates.format(event.date, 'yyyy-MM-dd')}"  />
                 		</select>
+                		
+                		
+                		  <div class="hidden">
+                        <input type="text"required id="newResultFormPersonId" autocomplete="off" th:field="*{personId}" />
+                    </div>
+                		
   
                     </div>
                    
-
-
-
-
-
-                  
                     
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!----------------------------------------Event--------------------------------------->
+<div th:fragment="newEvent">
+    <div id="sForm_event" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új esemény felvétele</h1>
+                <form action="#" th:action="@{/event/new}" th:object="${newEventDTO}" method="post">
+                 
+					 <div class="top-row">
+                        <div class="field-wrap">
+                           <label>
+                                Esemény neve<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{name}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Stadion<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{stadium}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Város<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{city}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Dátum<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{date}" />
+                    	</div>
+                    	
+                      	
+				
+                    	</div>
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!----------------------------------------PhysicalDev--------------------------------------->
+<div th:fragment="newPhysicalDev">
+    <div id="sForm_pdev" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új mérési eredmény felvétele</h1>
+                <form action="#" th:action="@{/physicalDevelopment/new}"  th:object="${newPhysicalDevDTO}" method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <label>
+                                Dátum<span class="req">*</span>
+                            </label>
+                            <input  autocomplete="off" th:field="*{date}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Súly<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{weight}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Magasság<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{height}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Testzsír<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{bodyFat}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                               Vérnyomás<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{bloodPressure}" />
+                        </div>
+                        <div class="hidden">
+                        	<input type="text"required id="newPhysicalDevFormPersonId" autocomplete="off" th:field="*{personId}" />
+                    	</div>
+                   
+                    </div>
+				
                     <button type="submit" class="button button-block">Felvétel</button>
                 </form>
             </div>
@@ -96,23 +245,23 @@
         <div class="form">
             <div id="signup">
                 <h1> Új klub felvétele</h1>
-                <form action="#" th:action="@{/club/new}"  method="post">
+                <form action="#" th:action="@{/club/new}"  th:object="${newClubDTO}" method="post">
                     <div class="top-row">
                         <div class="field-wrap">
                             <label>
                                 Klub neve<span class="req">*</span>
                             </label>
-                            <input type="text" required autocomplete="off" th:field="*{club.name}" />
+                            <input type="text" required autocomplete="off" th:field="*{name}" />
                         </div>
                         <div class="field-wrap">
                             <label>
                                 Központ<span class="req">*</span>
                             </label>
-                            <input type="text" id="datepicker" autocomplete="off" th:field="*{club.headquarter}" />
+                            <input type="text" id="datepicker" autocomplete="off" th:field="*{headquarter}" />
                         </div>
                     </div>
                     
-                     <select id="allsport"  name="allsporttId" th:field="*{sportId.id}">
+                     <select id="allsport"  name="allsporttId" th:field="*{sportId}">
   							 <option th:each="sport : ${allSport}" th:value="${sport.id}" th:text="${sport.name}"  />
                 		</select>
                 		
@@ -124,6 +273,67 @@
 
     </div>
 </div>
+
+
+
+<!----------------------------------------Supplement--------------------------------------->
+<div th:fragment="newSupplement">
+    <div id="sForm_supp" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új táplálékkiegészítő felvétele</h1>
+                <form action="#" th:action="@{/supplement/new}" th:object="${newSupplementDTO}" method="post">
+                 
+					 <div class="top-row">
+                        <div class="field-wrap">
+                           <label>
+                                Név<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{name}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Forgalmazó<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{brand}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Ár<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{price}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Mennyiség<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{quantity}" />
+                    	</div>
+                    	
+                    	<div class="field-wrap">
+                           <label>
+                               Mértékegység<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{unit}" />
+                    	</div>
+                    	
+                      	
+				
+                    	</div>
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
 
 <!----------------------------------------PersonClub--------------------------------------->
 <div th:fragment="newClubForPerson">
@@ -159,7 +369,7 @@
                     <div class="field-wrap">
                      <select id="allclub"  name="clubtList" th:field="*{idholder.id}">
                      		<option th:value="0" th:text="---">
-  							 <option th:each="club : ${allClub}" th:value="${club.id}" th:text="${club.name}"  />
+  							 <option th:each="club : ${allClub}" th:value="${club.id}" th:text="${club.name} + ' - ' + ${club.sport.name}"  />
                 		</select>
                 		</div>
                 		
@@ -174,9 +384,73 @@
 
 
 
+<!----------------------------------------PersonSupplement--------------------------------------->
+<div th:fragment="newSupplementForPerson">
+    <div id="sForm_per_supp_new" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Új táplálékkiegészitő felvétele</h1>
+                <form action="#" th:action="@{/usedSupp/new/{id}(id=${person.id})}" th:object="${newUsedSuppDTO}" method="post">
+                 
+					 <div class="top-row">
+                        <div class="field-wrap">
+                           <label>
+                                Napi adag<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{dailyDosage}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Használat kezdési dátuma<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{startDate}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Használat végének dátuma<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{endDate}" />
+                    	</div>
+                    	 <select id="allsupplements"  name="supplementList" th:field="*{supplementId}">
+  							 <option th:each="supplement : ${allsupplements}" th:value="${supplement.id}" th:text="${supplement.name} + ' - ' + ${supplement.quantity} + ${supplement.unit}"  />
+                		</select>
+                    	
+				
+                    	</div>
+                    <button type="submit" class="button button-block">Felvétel</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
 
 <!----------------------------------------UPDATE--------------------------------------->
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!----------------------------------------Person--------------------------------------->
@@ -189,46 +463,383 @@
         </div>
         <div class="form">
             <div id="signup">
-                <h1>  Elem módosítása</h1>
-                <form action="#" th:action="@{/person/update}"  method="post">
+                <h1>  Személy adatainak módosítása</h1>
+                <form action="#" th:action="@{/person/update}" th:object="${updatePersonDTO}" method="post">
                     <div class="top-row">
                         <div class="field-wrap">
                             <label>
                                 <p th:text="@{person.name}"/>Név<span class="req">*</span>
                             </label>
-                            <input type="text"  required autocomplete="off" th:field="*{person.name}" />
+                            <input type="text"  required autocomplete="off" th:field="*{name}" />
                         </div>
                         <div class="field-wrap">
                             <label>
                                 Születési idő<span class="req">*</span>
                             </label>
-                            <input type="text" id="datepicker" autocomplete="off" th:field="*{person.birthDate}" />
+                            <input type="text" id="datepicker" autocomplete="off" th:field="*{birthDate}" />
                         </div>
                     </div>
                     <div class="field-wrap">
                         <label>
                             Cím<span class="req">*</span>
                         </label>
-                        <input type="text" required autocomplete="off" th:field="*{person.address}" />
+                        <input type="text" required autocomplete="off" th:field="*{address}" />
                     </div>
                             <div class="hidden">
-                        <input type="text"required id="updateFormPersonId" autocomplete="off" th:field="*{sportId.secondaryId}" />
+                        <input type="text"required id="updateFormPersonId" autocomplete="off" th:field="*{personId}" />
                     </div>
-                     <select id="allsport"  name="sportList" th:field="*{sportId.id}">
+                     <select id="allsport"  name="sportList" th:field="*{sportId}">
   							 <option th:each="sport : ${allSport}" th:value="${sport.id}" th:text="${sport.name}"  />
                 		</select>
-                		
-             
-				
-           
-                		
-                    <button type="submit" class="button button-block">Felvétel</button>
+
+                    <button type="submit" class="button button-block">Módosít</button>
                 </form>
             </div>
         </div>
 
     </div>
 </div>
+
+<!----------------------------------------Sport--------------------------------------->
+<div th:fragment="updateSport">
+    <div id="sForm_sport_up" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Sport módosítása</h1>
+                <form action="#" th:action="@{/sport/update}"  th:object="${updateSportDTO}" method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                           <label>
+                                Dátum<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{name}" />
+                    	</div>
+                      	   <div class="hidden">
+                           <input type="text"required id="updateSportFormSportId" autocomplete="off" th:field="*{sportId}" />
+               	        </div>
+                    </div>
+				
+                    <button type="submit" class="button button-block">Módosít</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!----------------------------------------Result--------------------------------------->
+
+<div th:fragment="updateResult">
+    <div id="sForm_res_up" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Eredmény módosítása</h1>
+                <form action="#" th:action="@{/result/update}" th:object="${updateResultDTO}" method="post">
+                    <div class="top-row">
+                    
+               	  <div class="hidden">
+                        <input type="text"required id="updateResultFormResultId" autocomplete="off" th:field="*{resultId}" />
+                    </div>
+                  
+                <div class="field-wrap">
+                            <label>
+                                Helyezés<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{position}" />
+                        </div>
+                      
+                </div>
+                   
+                    
+                    <button type="submit" class="button button-block">Módosít</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!----------------------------------------Event--------------------------------------->
+<div th:fragment="updateEvent">
+    <div id="sForm_event_up" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Sport módosítása</h1>
+                <form action="#" th:action="@{/event/update}"  th:object="${updateEventDTO}" method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                           <label>
+                                Esemény neve<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{name}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Stadion<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{stadium}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Város<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{city}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Dátum<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{date}" />
+                    	</div>
+                    	
+                      	<div class="hidden">
+                           <input type="text"required id="updateEventFormEventId" autocomplete="off" th:field="*{eventId}" />
+               	        </div>
+				
+                    	</div>
+                    <button type="submit" class="button button-block">Módosít</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!----------------------------------------PhysicalDev--------------------------------------->
+<div th:fragment="updatePhysicalDev">
+    <div id="sForm_pdev_up" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Mérési eredmény módosítása</h1>
+                <form action="#" th:action="@{/physicalDevelopment/update}"  th:object="${updatePhysicalDevDTO}" method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <label>
+                                Dátum<span class="req">*</span>
+                            </label>
+                            <input  autocomplete="off" th:field="*{date}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Súly<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{weight}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Magasság<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{height}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Testzsír<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{bodyFat}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                               Vérnyomás<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{bloodPressure}" />
+                        </div>
+                        <div class="hidden">
+                        	<input type="text" required id="updatePhysicalDevFormPersonId" autocomplete="off" th:field="*{developmentId}" />
+                    	</div>
+                   
+                    </div>
+				
+                    
+                		
+                		
+                    <button type="submit" class="button button-block">Módosít</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!----------------------------------------Supplement--------------------------------------->
+<div th:fragment="updateSupplement">
+    <div id="sForm_supp_up" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Táplálékkiegészítő módosítása</h1>
+                <form action="#" th:action="@{/supplement/update}" th:object="${updateSupplementDTO}" method="post">
+                 
+					 <div class="top-row">
+                        <div class="field-wrap">
+                           <label>
+                                Név<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{name}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Forgalmazó<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{brand}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Ár<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{price}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Mennyiség<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{quantity}" />
+                    	</div>
+                    	
+                    	<div class="field-wrap">
+                           <label>
+                               Mértékegység<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{unit}" />
+                    	</div>
+                    	<div class="hidden">
+                        	<input type="text" required id="updateSupplementFormSuppId" autocomplete="off" th:field="*{supplementId}" />
+                    	</div>
+                    	
+                      	
+				
+                    	</div>
+                    <button type="submit" class="button button-block">Módosít</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!----------------------------------------Club--------------------------------------->
+<div th:fragment="updateClub">
+    <div id="sForm_club_up" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Klub módosítása</h1>
+                <form action="#" th:action="@{/club/update}"  th:object="${updateClubDTO}" method="post">
+                    <div class="top-row">
+                        <div class="field-wrap">
+                            <label>
+                                Klub neve<span class="req">*</span>
+                            </label>
+                            <input type="text" required autocomplete="off" th:field="*{name}" />
+                        </div>
+                        <div class="field-wrap">
+                            <label>
+                                Központ<span class="req">*</span>
+                            </label>
+                            <input type="text" id="datepicker" autocomplete="off" th:field="*{headquarter}" />
+                        </div>
+                        <div class="hidden">
+                        	<input type="text" required id="updateClubFormClubId" autocomplete="off" th:field="*{clubId}" />
+                    	</div>
+                    </div>
+                    
+        
+                		
+                    <button type="submit" class="button button-block">Módosít</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!----------------------------------------PersonSupplement--------------------------------------->
+<div th:fragment="updateSupplementForPerson">
+    <div id="sForm_per_supp_up" class="sForm sFormPadding ">
+        <div>
+            <span class="button close">
+                     <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
+                     </span>
+        </div>
+        <div class="form">
+            <div id="signup">
+                <h1> Táplálékkiegészitő módosítása</h1>
+                <form action="#" th:action="@{/usedSupp/update}" th:object="${updateUsedSuppDTO}" method="post">
+                 
+					 <div class="top-row">
+                        <div class="field-wrap">
+                           <label>
+                                Esemény neve<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{dailyDosage}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Stadion<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{startDate}" />
+                    	</div>
+                    	<div class="field-wrap">
+                           <label>
+                                Város<span class="req">*</span>
+                           </label>
+                           <input  autocomplete="off" th:field="*{endDate}" />
+                    	</div>
+                    	
+                    	<div class="hidden">
+                        	<input type="text" required id="updateSupplementFormSuppId" autocomplete="off" th:field="*{usedSuppId}" />
+                    	</div>
+                    
+                    	
+				
+                    	</div>
+                    <button type="submit" class="button button-block">Módosít</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
 
 
 

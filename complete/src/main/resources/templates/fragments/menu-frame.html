@@ -120,12 +120,29 @@
                     <li>
                         <a th:href="index.html"><i class="fa fa-fw fa-dashboard"></i> Kezdőlap</a>
                     </li>
-                    <li>
-                        <a th:href="@{/chart}"><i class="fa fa-fw fa-bar-chart-o"></i> Grafikonok</a>
+                    <li class="">
+                        <a href="javascript:;" data-toggle="collapse" data-target="#graphs"><i class="fa fa-fw fa-table"></i> Grafikonok <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="graphs" class="collapse">
+                            <li>
+                                <a th:href="@{/chart/sportsPopularity/}">Sportok Népszerűsége</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/chart/supplementsPopularity/}">Táplálékkiegészítők Népszerűsége</a>
+                            </li>
+                             <li>
+                                <a th:href="@{/event}">Események</a>
+                            </li>
+                             <li>
+                                <a th:href="@{/supplement}">Táplálékkiegészítők</a>
+                            </li>
+                             <li>
+                                <a th:href="@{/club}">Klubok</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="">
-                        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-table"></i> Táblák <i class="fa fa-fw fa-caret-down"></i></a>
-                        <ul id="demo" class="collapse">
+                        <a href="javascript:;" data-toggle="collapse" data-target="#tables"><i class="fa fa-fw fa-table"></i> Táblák <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="tables" class="collapse">
                             <li>
                                 <a th:href="@{/person}">Személyek</a>
                             </li>
@@ -139,7 +156,7 @@
                                 <a th:href="@{/supplement}">Táplálékkiegészítők</a>
                             </li>
                              <li>
-                                <a th:href="@{/club}">Klubbok</a>
+                                <a th:href="@{/club}">Klubok</a>
                             </li>
                         </ul>
                     </li>
@@ -147,10 +164,10 @@
                         <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Jegyzetek</a>
                     </li>
                     <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Beállítások</a>
+                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> BeÃ¡llÃ­tÃ¡sok</a>
                     </li>
                     <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> Beállítások</a>
+                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> BeÃ¡llÃ­tÃ¡sok</a>
                     </li>
                 </ul>
             </div>

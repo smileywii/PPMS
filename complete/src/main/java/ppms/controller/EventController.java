@@ -9,9 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import ppms.domain.Event;
+import ppms.dto.NewEventDTO;
+import ppms.dto.UpdateEventDTO;
 import ppms.service.EventService;
 import ppms.service.ResultService;
 
@@ -26,37 +27,56 @@ public class EventController {
   ResultService resultService;
 
   @RequestMapping()
-  public String tables(@RequestParam(value = "name", required = false, defaultValue = "World") String name,
-      Model model, Event event) {
+  public String event(Model model) {
     model.addAttribute("events", eventService.findAll());
+
+    model.addAttribute("newEventDTO", new NewEventDTO());
+    model.addAttribute("updateEventDTO", new UpdateEventDTO());
+
     return "event/event";
   }
 
   @RequestMapping("/show/{id}")
-  public String show(@RequestParam(value = "name", required = false, defaultValue = "World") String name, Model model,
-      @PathVariable Long id) {
+  public String show(Model model, @PathVariable Long id) {
     Event event = eventService.findOne(id);
     model.addAttribute("event", event);
-    System.out.println(resultService.findAllByEventId(id).size());
     model.addAttribute("results", resultService.findAllByEventId(id));
 
     return "event/show";
   }
 
   @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public String newEvent(@Valid Event event, BindingResult bindingResult, Model model) {
-    if (bindingResult.getErrorCount() == 0) {
-      eventService.save(event);
+  public String newEvent(@Valid NewEventDTO eventDTO, BindingResult eventDTOBinding) {
+    if (isNoObjectBindingError(eventDTOBinding)) {
+      eventService.save(eventDTO);
+    }
+
+    return "redirect:/event";
+  }
+
+  @RequestMapping(value = "/update", method = RequestMethod.POST)
+  public String updateEvent(@Valid UpdateEventDTO eventDTO, BindingResult eventDTOBinding) {
+    if (isNoObjectBindingError(eventDTOBinding)) {
+      eventService.update(eventDTO);
     }
 
     return "redirect:/event";
   }
 
   @RequestMapping("/delete/{id}")
-  public String delete(@RequestParam(value = "name", required = false, defaultValue = "World") String name,
-      Model model, @PathVariable Long id) {
+  public String delete(@PathVariable Long id) {
     eventService.delete(id);
     return "redirect:/event";
+  }
+
+  private boolean isNoObjectBindingError(BindingResult... bindingResult) {
+    for (BindingResult result : bindingResult) {
+      if (result.getErrorCount() != 0) {
+        System.out.println("Binding error:" + result.getFieldErrors().toString());
+        return false;
+      }
+    }
+    return true;
   }
 
 }

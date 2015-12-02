@@ -10,6 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import ppms.dto.NewPhysicalDevDTO;
+import ppms.dto.UpdatePhysicalDevDTO;
 
 @Entity
 public class PhysicalDevelopment implements Serializable {
@@ -24,16 +32,33 @@ public class PhysicalDevelopment implements Serializable {
   @Column(name = "physicaldev_id")
   private long id;
 
+  @Past
+  @NotNull
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date date;
+
+  @NotNull
+  @Min(1)
   private int weight;
+
+  @NotNull
+  @Min(1)
   private int height;
+
+  @NotNull
+  @Min(1)
   private int bodyFat;
+
+  @NotNull
+  @Min(1)
   private int bloodPressure;
 
+  @NotNull
   @OneToOne
   @JoinColumn(name = "person_id")
   private Person person;
 
+  @NotNull
   @OneToOne
   @JoinColumn(name = "sport_id")
   private Sport sport;
@@ -51,6 +76,24 @@ public class PhysicalDevelopment implements Serializable {
     this.person = person;
     this.sport = sport;
 
+  }
+
+  public PhysicalDevelopment(NewPhysicalDevDTO devDTO, Person person) {
+    this.date = devDTO.getDate();
+    this.weight = devDTO.getWeight();
+    this.height = devDTO.getHeight();
+    this.bodyFat = devDTO.getBodyFat();
+    this.bloodPressure = devDTO.getBloodPressure();
+    this.person = person;
+    this.sport = person.getSport();
+  }
+
+  public void update(UpdatePhysicalDevDTO devDTO) {
+    this.date = devDTO.getDate();
+    this.weight = devDTO.getWeight();
+    this.height = devDTO.getHeight();
+    this.bodyFat = devDTO.getBodyFat();
+    this.bloodPressure = devDTO.getBloodPressure();
   }
 
   @Override

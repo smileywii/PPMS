@@ -9,11 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import ppms.domain.Club;
-import ppms.domain.IdHolder;
-import ppms.domain.Sport;
+import ppms.dto.NewClubDTO;
+import ppms.dto.UpdateClubDTO;
 import ppms.service.ClubService;
 import ppms.service.MembershipService;
 import ppms.service.SportService;
@@ -33,11 +32,23 @@ public class ClubController {
 
   @RequestMapping()
   public String tables(String name, Model model, Club club) {
-    model.addAttribute("sportId", new IdHolder());
     model.addAttribute("allSport", sportService.findAll());
     model.addAttribute("clubs", clubService.findAll());
 
+    model.addAttribute("newClubDTO", new NewClubDTO());
+    model.addAttribute("updateClubDTO", new UpdateClubDTO());
+
     return "club/club";
+  }
+
+  @RequestMapping(value = "/new", method = RequestMethod.POST)
+  public String newClub(@Valid NewClubDTO clubDTO, BindingResult clubDTOBinding) {
+
+    if (isNoObjectBindingError(clubDTOBinding)) {
+      clubService.save(clubDTO);
+    }
+
+    return "redirect:/club";
   }
 
   @RequestMapping("/show/{id}")
@@ -50,23 +61,30 @@ public class ClubController {
     return "club/show";
   }
 
-  @RequestMapping(value = "/new", method = RequestMethod.POST)
-  public String newClub(@Valid Club club, BindingResult clubBinding, @Valid IdHolder sportId,
-      BindingResult sportBinding, Model model) {
+  @RequestMapping("/delete/{id}")
+  public String delete(@PathVariable Long id) {
+    clubService.delete(id);
+    return "redirect:/club";
+  }
 
-    if (clubBinding.getErrorCount() == 0 && clubBinding.getErrorCount() == 0) {
-      Sport sport = sportService.findOne(sportId.getId());
-      club.setSport(sport);
-      clubService.save(club);
+  @RequestMapping(value = "/update", method = RequestMethod.POST)
+  public String update(@Valid UpdateClubDTO clubDTO, BindingResult clubDTOBinding) {
+
+    if (isNoObjectBindingError(clubDTOBinding)) {
+      clubService.update(clubDTO);
     }
 
     return "redirect:/club";
   }
 
-  @RequestMapping("/delete/{id}")
-  public String delete(@RequestParam(value = "name", required = false, defaultValue = "World") String name,
-      Model model, @PathVariable Long id) {
-    clubService.delete(id);
-    return "redirect:/club";
+  private boolean isNoObjectBindingError(BindingResult... bindingResult) {
+    for (BindingResult result : bindingResult) {
+      if (result.getErrorCount() != 0) {
+        System.out.println("Binding error:" + result.getFieldErrors().toString());
+        return false;
+      }
+    }
+    return true;
   }
+
 }

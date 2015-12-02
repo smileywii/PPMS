@@ -1,5 +1,7 @@
 package ppms.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,5 +16,8 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
   @Query("SELECT count(c.name) FROM Club c WHERE c.sport.id LIKE ?1")
   Integer numberOfClubDoingSport(Long id);
+
+  @Query("SELECT p FROM Person p WHERE p.sport.id LIKE ?1")
+  List<Person> getAllPeopleDoingSport(Long id);
 
 }

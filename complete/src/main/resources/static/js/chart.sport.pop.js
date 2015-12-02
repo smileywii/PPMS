@@ -14,15 +14,14 @@ var restGetPeople = function() {
             sports = new Array();
             var i = 0;
             while (result[i]) {
-                sports[i] = new Array(3)
+                sports[i] = new Array(4)
                 sports[i][0] = result[i][0].name;
                 sports[i][1] = result[i][0].number;
                 sports[i][2] = '#a3a3f5';
+                sports[i][3] = result[i][0].number;
                 i++;
             }
-            sports.unshift(["Sport", "Sportolók száma", {
-                role: 'style'
-            }]);
+            sports.unshift(["Sport", "Sportolók száma", { role: 'style' }, { role: 'annotation' } ]);
 
             title = 'Sportok népszerűsége sportolók szerint';
             drawChart();
@@ -57,9 +56,14 @@ function drawChart() {
         'width': 1000,
         'height': 500,
         'color': 'orange',
-        'backgroundColor': '#e1e1ea'
-
+        'backgroundColor': '#e1e1ea',
+        'bar': { groupWidth: '55%' },
+        'vAxis': {title: 'Sportok'},
+        'hAxis': {title: 'Sportolók száma' }
     };
+    
+   
+
 
     // Instantiate and draw our chart, passing in some options.
     var chart = new google.visualization.BarChart(document.getElementById('chart_div'));

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>
+        People Performance Management System
+    </title>
+    <!-- Bootstrap Core CSS -->
+    <!-- Custom CSS -->
+    <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" media="screen" th:href="@{/css/sb-admin.css}" />
+    <link rel="stylesheet" media="screen" th:href="@{/css/my-styles.css}" />
+    <link rel="stylesheet" media="screen" th:href="@{/css/table-style.css}" />
+    <link rel="stylesheet" media="screen" th:href="@{/css/new-item-form-style.css}" />
+    <!-- Custom Fonts -->
+    <link rel="stylesheet" media="screen" th:href="@{/font-awesome/css/font-awesome.min.css}" />
+    <!-- jQuery -->
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:src="@{/js/chart.supp.pop.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div th:include="fragments/menu-frame :: menu"></div>
+        <div id="page-wrapper" style="background-color:#EDEFF0">
+            <div class="container-fluid">
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                       Sportok népszerűsége
+                     </h1>
+                        <ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-dashboard">
+                           </i>
+                                <a href="index.html">
+                           Dashboard
+                           </a>
+                            </li>
+                            <li class="active">
+                                <i class="fa fa-table">
+                           </i> Grafikon
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!--Div that will hold the pie chart-->
+                <div id="chart_div">
+                </div>
+                <br>
+                <br>
+                <div >
+                    <button type="button" class="btn btn-primary" onclick="restGetSupp()" id="btn">Sportolók</button>
+                    <button type="button" class="btn btn-warning" onclick="restGetSuppByClub()" id="btn">Klubok</button>
+                    
+                </div>
+                <!-- /.row -->
+                </div>
+                <br>
+                <br>
+             
+                <br>
+                <br>
+
+            </div>
+            <!-- /#page-wrapper -->
+            <!-- /#wrapper -->
+            <!-- Bootstrap Core JavaScript -->
+</body>
+
+</html>
+

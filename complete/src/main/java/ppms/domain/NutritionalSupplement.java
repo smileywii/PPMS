@@ -15,6 +15,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import ppms.dto.NewSupplementDTO;
+import ppms.dto.UpdateSupplementDTO;
+
 @Entity
 public class NutritionalSupplement implements Serializable {
 
@@ -61,6 +64,22 @@ public class NutritionalSupplement implements Serializable {
     this.unit = unit;
     this.price = price;
 
+  }
+
+  public NutritionalSupplement(NewSupplementDTO supplementDTO) {
+    this.name = supplementDTO.getName();
+    this.brand = supplementDTO.getBrand();
+    this.quantity = supplementDTO.getQuantity();
+    this.unit = supplementDTO.getUnit();
+    this.price = supplementDTO.getPrice();
+  }
+
+  public void update(UpdateSupplementDTO supplementDTO) {
+    this.name = supplementDTO.getName();
+    this.brand = supplementDTO.getBrand();
+    this.quantity = supplementDTO.getQuantity();
+    this.unit = supplementDTO.getUnit();
+    this.price = supplementDTO.getPrice();
   }
 
   @Override

@@ -29,14 +29,17 @@ public class Result implements Serializable {
   @Min(1)
   private int position;
 
+  @NotNull
   @OneToOne
   @JoinColumn(name = "event_id")
   private Event event;
 
+  @NotNull
   @OneToOne
   @JoinColumn(name = "person_id")
   private Person person;
 
+  @NotNull
   @OneToOne
   @JoinColumn(name = "sport_id")
   private Sport sport;

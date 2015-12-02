@@ -3,6 +3,8 @@ package ppms.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +13,9 @@ import ppms.domain.DateHolder;
 import ppms.domain.Membership;
 import ppms.domain.Person;
 import ppms.domain.Sport;
+import ppms.dto.NewPersonDTO;
+import ppms.dto.UpdatePersonDTO;
 import ppms.repository.ClubRepository;
-import ppms.repository.MembershipRepository;
 import ppms.repository.PersonRepository;
 import ppms.repository.SportRepository;
 
@@ -23,7 +26,7 @@ public class PersonService {
   PersonRepository personRepository;
 
   @Autowired
-  MembershipRepository membershipRepository;
+  MembershipService membershipService;
 
   @Autowired
   ClubRepository clubRepository;
@@ -39,8 +42,8 @@ public class PersonService {
     return personRepository.findAll();
   }
 
-  public void save(Person person) {
-    personRepository.save(person);
+  public Person save(@Valid Person person) {
+    return personRepository.save(person);
   }
 
   public long count() {
@@ -59,28 +62,31 @@ public class PersonService {
     return personRepository.numberOfClubDoingSport(sportId);
   }
 
-  public void registerPerson(Person person, long clubId) {
-    person.setSport(clubRepository.findOne(clubId).getSport());
-    Person savedPerson = personRepository.save(person);
-    Membership membership = new Membership(clubRepository.findOne(clubId), savedPerson, new Date(), new Date());
+  public void registerPerson(NewPersonDTO personDTO) {
+    Person person = save(new Person(personDTO, clubRepository.findOne(personDTO.getClubId()).getSport()));
+    Membership membership = new Membership(clubRepository.findOne(personDTO.getClubId()), person, new Date(),
+        new Date());
 
-    membershipRepository.save(membership);
+    membershipService.save(membership);
   }
 
   // TODO: endDate
-  public void update(Person person, long personId, long sportId) {
-    Person existingPerson = personRepository.findOne(personId);
-    Sport existingSport = sportRepository.findOne(sportId);
-    person.setSport(existingSport);
-    existingPerson.updatePerson(person);
+  public void update(UpdatePersonDTO personDTO) {
+    Person person = personRepository.findOne(personDTO.getPersonId());
+    Sport sport = sportRepository.findOne(personDTO.getSportId());
 
-    if (existingSport.getId() != existingPerson.getSport().getId()) {
-      Membership membership = membershipRepository.findOne(existingPerson.getMemberships().get(0).getId());
-      membership.setEndDate(new Date());
-      membershipRepository.save(membership);
+    if (sport.getId() != person.getSport().getId()) {
+      if (!person.getMemberships().isEmpty()) {
+        long currClubId = getCurrentClubId(person.getMemberships());
+        if (currClubId != 0) {
+          Membership membership = membershipService.findOne(currClubId);
+          membership.setEndDate(new Date());
+          membershipService.save(membership);
+        }
+      }
     }
 
-    personRepository.save(existingPerson);
+    save(person.updatePerson(personDTO, sport));
   }
 
   public void newClub(Long personId, DateHolder dateHolder, long clubId) {
@@ -94,8 +100,21 @@ public class PersonService {
         personRepository.save(person);
       }
       membership = new Membership(club, person, dateHolder.getStartDate(), dateHolder.getEndDate());
-      membershipRepository.save(membership);
+      membershipService.save(membership);
     }
 
+  }
+
+  public List<Person> getAllPeopleDoingSport(Long sportId) {
+    return personRepository.getAllPeopleDoingSport(sportId);
+  }
+
+  private long getCurrentClubId(List<Membership> memberships) {
+    for (Membership membership : memberships) {
+      if (membership.getEndDate().compareTo(new Date()) > 0) {
+        return membership.getId();
+      }
+    }
+    return 0;
   }
 }

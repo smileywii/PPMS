@@ -20,6 +20,9 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import ppms.dto.NewPersonDTO;
+import ppms.dto.UpdatePersonDTO;
+
 @Entity
 public class Person implements Serializable {
 
@@ -46,7 +49,7 @@ public class Person implements Serializable {
   @Size(min = 1, max = 45)
   private String address;
 
-  // @NotNull
+  @NotNull
   @OneToOne
   @JoinColumn(name = "sport_id")
   private Sport sport;
@@ -78,11 +81,18 @@ public class Person implements Serializable {
     this.address = address;
   }
 
-  public Person updatePerson(Person person) {
-    this.name = person.name;
-    this.birthDate = person.birthDate;
-    this.address = person.address;
-    this.sport = person.getSport();
+  public Person(NewPersonDTO personDTO, Sport sport) {
+    this.name = personDTO.getName();
+    this.birthDate = personDTO.getBirthDate();
+    this.address = personDTO.getAddress();
+    this.sport = sport;
+  }
+
+  public Person updatePerson(UpdatePersonDTO personDTO, Sport sport) {
+    this.name = personDTO.getName();
+    this.birthDate = personDTO.getBirthDate();
+    this.address = personDTO.getAddress();
+    this.sport = sport;
     return this;
   }
 
@@ -97,14 +107,6 @@ public class Person implements Serializable {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public Date getAge() {
-    return birthDate;
-  }
-
-  public void setAge(Date birthDate) {
-    this.birthDate = birthDate;
   }
 
   public String getAddress() {
@@ -186,13 +188,5 @@ public class Person implements Serializable {
   public void setId(long id) {
     this.id = id;
   }
-
-  // public MemberList getMembership() {
-  // return membership;
-  // }
-  //
-  // public void setMembership(MemberList membership) {
-  // this.membership = membership;
-  // }
 
 }

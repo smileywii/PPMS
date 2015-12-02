@@ -12,6 +12,9 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import ppms.dto.NewClubDTO;
+import ppms.dto.UpdateClubDTO;
+
 @Entity
 public class Club implements Serializable {
 
@@ -43,6 +46,17 @@ public class Club implements Serializable {
   public Club(String name, String headquarter) {
     this.name = name;
     this.headquarter = headquarter;
+  }
+
+  public Club(NewClubDTO clubDTO, Sport sport) {
+    this.name = clubDTO.getName();
+    this.headquarter = clubDTO.getHeadquarter();
+    this.sport = sport;
+  }
+
+  public void update(UpdateClubDTO clubDTO) {
+    this.name = clubDTO.getName();
+    this.headquarter = clubDTO.getHeadquarter();
   }
 
   @Override

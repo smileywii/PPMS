@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ppms.domain.Sport;
+import ppms.domain.UsedSupplement;
+import ppms.service.NutritionalSupplementService;
 import ppms.service.PersonService;
 import ppms.service.SportService;
+import ppms.service.UsedSupplementsService;
 
 @Controller
 @RequestMapping("/chart")
@@ -25,9 +28,20 @@ public class ChartController {
   @Autowired
   PersonService personService;
 
-  @RequestMapping
-  public String index() {
-    return "chart/chart";
+  @Autowired
+  UsedSupplementsService usedSupplementsService;
+
+  @Autowired
+  NutritionalSupplementService nutritionalSupplementService;
+
+  @RequestMapping("/sportsPopularity")
+  public String sportsPopularity() {
+    return "/chart/sportsPopularity";
+  }
+
+  @RequestMapping("/supplementsPopularity")
+  public String supplementsPopularity() {
+    return "/chart/supplementsPopularity";
   }
 
   @RequestMapping(value = "sportpopularitybypeople", method = RequestMethod.GET)
@@ -57,13 +71,14 @@ public class ChartController {
     JSONObject json = new JSONObject();
     Integer i = 0;
     List<Sport> sports = sportService.findAll();
+    System.out.println(sports.size());
     for (Sport sport : sports) {
       try {
 
-        JSONArray alma = new JSONArray().put(new JSONObject().put("name", sport.getName()).put("number",
+        JSONArray jsonArray = new JSONArray().put(new JSONObject().put("name", sport.getName()).put("number",
             personService.numberOfClubDoingSport(sport.getId())));
 
-        json.put(i.toString(), alma);
+        json.put(i.toString(), jsonArray);
         i++;
       } catch (JSONException e) {
         // TODO Auto-generated catch block
@@ -74,4 +89,55 @@ public class ChartController {
     return json.toString();
   }
 
+  @RequestMapping(value = "supplementpopularity", method = RequestMethod.GET)
+  public @ResponseBody String getNutritionalSupplementPopularity() {
+
+    JSONObject json = new JSONObject();
+    Integer i = 0;
+    List<UsedSupplement> usedSupplements = usedSupplementsService.findAll();
+    for (UsedSupplement usedSupplement : usedSupplements) {
+      try {
+
+        JSONArray jsonArray = new JSONArray().put(new JSONObject().put(
+            "name",
+            usedSupplement.getSupplement().getName() + " - " + usedSupplement.getSupplement().getQuantity()
+                + usedSupplement.getSupplement().getUnit()).put("number",
+            usedSupplementsService.getAllPeopleUsingThisSupplement(usedSupplement.getSupplement().getId()).size()));
+        json.put(i.toString(), jsonArray);
+        i++;
+        System.out.println(jsonArray);
+      } catch (JSONException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+
+    }
+    return json.toString();
+  }
+
+  // @RequestMapping(value = "supplementpopularityByClub", method = RequestMethod.GET)
+  // public @ResponseBody String getNutritionalSupplementPopularityByClub() {
+  //
+  // JSONObject json = new JSONObject();
+  // Integer i = 0;
+  // List<UsedSupplement> usedSupplements = usedSupplementsService.findAll();
+  // for (UsedSupplement usedSupplement : usedSupplements) {
+  // try {
+  //
+  // JSONArray jsonArray = new JSONArray().put(new JSONObject().put(
+  // "name",
+  // usedSupplement.getSupplement().getName() + " - " + usedSupplement.getSupplement().getQuantity()
+  // + usedSupplement.getSupplement().getUnit()).put("number",
+  // usedSupplementsService.getAllClubUsingThisSupplement(usedSupplement.getSupplement().getId()).size()));
+  // json.put(i.toString(), jsonArray);
+  // i++;
+  // System.out.println(jsonArray);
+  // } catch (JSONException e) {
+  // // TODO Auto-generated catch block
+  // e.printStackTrace();
+  // }
+  //
+  // }
+  // return json.toString();
+  // }
 }

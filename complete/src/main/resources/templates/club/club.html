@@ -26,9 +26,10 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
       <![endif]-->
       <!-- jQuery -->
-    <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
-
-    <script type="text/javascript" th:src="@{/js/new-item-form.js}"></script>
+     <script type="text/javascript" th:src="@{/js/jquery.js}"></script>
+     <script type="text/javascript" th:src="@{/js/new-item-form.js}"></script>
+     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+     <script type="text/javascript" th:src="@{/js/bootstrap-datepicker.min.js}"></script>
       <script>
          $(function() {
              $('#menu-frame').load('../../menu-frame.html');
@@ -43,6 +44,12 @@
                  $(this).children(".settingsIcon").toggleClass("openIcon");
              });
          });
+         
+
+         function openUpdateClubForm(elem) {
+             $("#sForm_club_up").toggleClass("open");
+             document.getElementById("updateClubFormClubId").setAttribute("value", elem.id);
+         }
          
       </script>
    </head>
@@ -110,27 +117,27 @@
                      <td>
                        <p th:text="${club.headquarter}" />
                      </td>
-                     <td class="controlTd">
-                        <div class="settingsIcons">
-                           <span class="settingsIcon">
+                    <td class="controlTd">
+                                <div class="settingsIcons">
+                                    <span class="settingsIcon">
                            <img src="http://i.imgur.com/nnzONel.png" alt="X" />
                            </span>
-                           <span class="settingsIcon">
-                           <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                           <a  th:href="@{/club/delete/{id}(id=${club.id})}"><span>Delete</span></a>
-                           </span>
-                           <div class="settingsIcon">
-                              <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                           </div>
-                        </div>
-                     </td>
-                  </tr>
-               </table>
-               <div th:include="fragments/forms :: newClub"></div>
+                                    <div class="settingsIcon">
+                                        <a class="glyphicon  glyphicon-remove-sign" th:href="@{/club/delete/{id}(id=${club.id})}"><span></span></a>
+                                    </div>
+
+                                    <div class="settingsIcon">
+                                        <a class="glyphicon glyphicon-pencil" th:id=${club.id} onclick="openUpdateClubForm(this)"><span></span></a>
+                                    </div>
+
+                                </div>
+                            </td>
+                    </tr>
+                </table>
+                <div th:include="fragments/forms :: newClub"></div>
+                <div th:include="fragments/forms :: updateClub"></div>
                   <!-- tab-content -->
-               </div>
                <!-- /form -->
-            </div>
             <!----------------------------------------Table--------------------------------------->
             <br>
             <br>

@@ -13,6 +13,9 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import ppms.dto.NewEventDTO;
+import ppms.dto.UpdateEventDTO;
+
 @Entity
 public class Event implements Serializable {
 
@@ -49,6 +52,20 @@ public class Event implements Serializable {
     this.city = city;
     this.stadium = stadium;
     this.name = name;
+  }
+
+  public Event(NewEventDTO eventDTO) {
+    this.city = eventDTO.getCity();
+    this.stadium = eventDTO.getStadium();
+    this.name = eventDTO.getName();
+    this.date = eventDTO.getDate();
+  }
+
+  public void update(UpdateEventDTO eventDTO) {
+    this.city = eventDTO.getCity();
+    this.stadium = eventDTO.getStadium();
+    this.name = eventDTO.getName();
+    this.date = eventDTO.getDate();
   }
 
   @Override

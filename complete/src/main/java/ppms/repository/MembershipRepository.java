@@ -15,6 +15,9 @@ public interface MembershipRepository extends JpaRepository<Membership, Long> {
   @Query("SELECT person FROM Membership m WHERE m.club.id LIKE ?1")
   List<Person> getAllMembersOfClub(long id);
 
+  @Query("SELECT m FROM Membership m WHERE m.club.id LIKE ?1")
+  List<Membership> getAllMembershipOfClub(Long id);
+
   // @Query("SELECT r FROM Result r WHERE LOWER(r.event) = LOWER(:id)")
   // public List<Result> findAllByEventId(@Param("id") Long id);
 

@@ -7,7 +7,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <title>
-         SB Admin - Bootstrap Admin Template
+         Personal Performance Monitoring System
       </title>
       <!-- Bootstrap Core CSS -->
       <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -83,15 +83,15 @@
                      <td class="titleTd" style="font-size:20px">
                        Események
                      </td>
-                     <td colspan="5">
+                     <td colspan="3">
                      </td>
                      <td class="plusTd button">
                      </td>
                   </tr>
                   <tr class="headingTr">
-                     <td>
-                        Sorszám
-                     </td>
+                           <td>
+                            Dátum
+                           </td>
                      <td>
                         Név
                      </td>
@@ -99,37 +99,28 @@
                              Stadion
                            </td>
                            <td>
-                            Dátum
-                           </td>
-                           <td>
                               Város
                            </td>
                    
-                     <td>
+                     <td >
                         Műveletek
-                     </td>
-                     <td>
-                     </td>
-                   
+                     </td>                   
                   </tr>
                   <tr th:each="event : ${events}">
-                     <td>
-                        <p th:text=" ${event.id} " />
-                     </td>
+                             <td>
+                               <p th:text="${#dates.format(event.date, 'yyyy-MM-dd')}" />
+                           </td>
                      <td>
                       <a th:href="@{/event/show/{id}(id=${event.id})}">
                         <p th:text="${event.name}" />
                      </td>
                      <td>
+                        <p hidden th:text=" ${event.id} " />
                               <p th:text=" ${event.stadium} " />
-                           </td>
-                             <td>
-                               <p th:text="${#dates.format(event.date, 'yyyy-MM-dd')}" />
                            </td>
                              <td>
                               <p th:text=" ${event.city} " />
                            </td>
-                     <td>
                       <td class="controlTd">
                                 <div class="settingsIcons">
                                     <span class="settingsIcon">

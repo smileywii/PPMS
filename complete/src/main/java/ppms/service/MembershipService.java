@@ -41,4 +41,8 @@ public class MembershipService {
   public List<Person> getAllMembersOfClub(Long id) {
     return membershipRepository.getAllMembersOfClub(id);
   }
+
+  public List<Membership> getAllMembershipOfClub(Long id) {
+    return membershipRepository.getAllMembershipOfClub(id);
+  }
 }

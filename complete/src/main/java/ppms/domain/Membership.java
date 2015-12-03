@@ -92,11 +92,11 @@ public class Membership implements Serializable {
     this.endDate = endDate;
   }
 
-  public Person getPersonList() {
+  public Person getPerson() {
     return person;
   }
 
-  public void setPersonList(Person personList) {
+  public void setPerson(Person personList) {
     this.person = personList;
   }
 

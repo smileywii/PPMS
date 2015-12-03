@@ -7,7 +7,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <title>
-         SB Admin - Bootstrap Admin Template
+         Personal Performance Monitoring System
       </title>
       <!-- Bootstrap Core CSS -->
       <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -86,10 +86,10 @@
                   </tr>
                   <tr class="headingTr">
                      <td>
-                        Név
+                        Márka
                      </td>
                      <td>
-                        Márka
+                        Név
                      </td>
                      <td>
                         Mennyiség
@@ -105,12 +105,12 @@
                      </td>
                   </tr>
                   <tr th:each="supplement : ${supplements}">
-                     <td>
-                        <p th:text="${supplement.name}" />
-                     </td>
                         <td>
                         <p th:text="${supplement.brand}" />
                      </td>   
+                     <td>
+                        <p th:text="${supplement.name}" />
+                     </td>
                      <td>
                         <p th:text="${supplement.quantity}" />
                      </td>   

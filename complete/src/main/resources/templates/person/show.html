@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>
-        People Performance Management System
+        Personal Performance Monitoring System
     </title>
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" media="screen" th:href="@{/css/bootstrap.min.css}" />
@@ -149,9 +149,6 @@
                         <table class="flatTable">
                             <tr class="headingTr">
                                 <td>
-                                    Sorszám
-                                </td>
-                                <td>
                                     Név
                                 </td>
                                  <td>
@@ -166,19 +163,15 @@
                                 <td>
                                     Műveletek
                                 </td>
-                                <td>
-                                </td>
                             </tr>
                             <tr>
-                                <td>
-                                    <p id="personIdLabel" th:text=" ${person.id} " />
-                                </td>
                                 <td>
                                     <a th:href="@{/person/show/{id}(id=${person.id})}">
                                         <p th:text=" ${person.name} " />
                                     </a>
                                 </td>
                                   <td>
+                                    <p  hidden id="personIdLabel" th:text=" ${person.id} " />
                                     <p th:text=" ${person.sport.name} " />
                                 </td>
                                 <td>
@@ -187,7 +180,6 @@
                                 <td>
                                     <p th:text=" ${person.address} " />
                                 </td>
-                                <td>
                                     <td class="controlTd">
                                         <div class="settingsIcons">
                                             <span class="settingsIcon">
@@ -216,16 +208,13 @@
                         <table class="flatTable">
                             <tr class="headingTr">
                                 <td>
-                                    Sorszám
-                                </td>
-                                <td>
-                                    Helyezés
+                                    Dátum
                                 </td>
                                 <td>
                                     Verseny
                                 </td>
                                 <td>
-                                    Dátum
+                                    Helyezés
                                 </td>
                                 <td>
                                     Sport
@@ -236,16 +225,14 @@
                             </tr>
                             <tr th:each="result : ${results}">
                                 <td>
-                                    <p th:text=" ${result.id} " />
-                                </td>
-                                <td>
-                                    <p th:text=" ${result.position} " />
+                                    <p th:text=" ${#dates.format(result.getEvent().getDate(), 'yyyy-MM-dd')} " />
                                 </td>
                                 <td>
                                     <p th:text=" ${result.getEvent().getName()} " />
                                 </td>
                                 <td>
-                                    <p th:text=" ${#dates.format(result.getEvent().getDate(), 'yyyy-MM-dd')} " />
+                                    <p hidden th:text=" ${result.id} " />
+                                    <p th:text=" ${result.position} " />
                                 </td>
                                 <td>
                                     <p th:text=" ${result.getSport().getName()} " />
@@ -282,13 +269,10 @@
                         <table class="flatTable">
                             <tr class="headingTr">
                                 <td>
-                                    Sorszám
+                                    Dátum
                                 </td>
                                 <td>
                                     Sport
-                                </td>
-                                <td>
-                                    Dátum
                                 </td>
                                 <td>
                                     Idő
@@ -305,13 +289,11 @@
                             </tr>
                             <tr th:each="sportdev : ${sportdevs}">
                                 <td>
-                                    <p th:text=" ${sportdev.id} " />
-                                </td>
-                                <td>
-                                    <p th:text=" ${sportdev.getSport().getName()} " />
-                                </td>
-                                <td>
                                     <p th:text="${#dates.format(sportdev.date, 'yyyy-MM-dd')}" />
+                                </td>
+                                <td>
+                                    <p hidden th:text=" ${sportdev.id} " />
+                                    <p th:text=" ${sportdev.getSport().getName()} " />
                                 </td>
                                 <td>
                                     <p th:text=" ${sportdev.time} " />
@@ -357,13 +339,10 @@
                         <table class="flatTable">
                             <tr class="headingTr">
                                 <td>
-                                    Sorszám
+                                    Dátum
                                 </td>
                                 <td>
                                     Sport
-                                </td>
-                                <td>
-                                    Dátum
                                 </td>
                                 <td>
                                     Vérnyomás
@@ -383,13 +362,11 @@
                             </tr>
                             <tr th:each="physicaldev : ${physicaldevs}">
                                 <td>
-                                    <p th:text=" ${physicaldev.id} " />
-                                </td>
-                                <td>
-                                    <p th:text=" ${physicaldev.getSport().getName()} " />
-                                </td>
-                                <td>
                                 <p th:text="${#dates.format(physicaldev.date, 'yyyy-MM-dd')}" />
+                                </td>
+                                <td>
+                                    <p hidden th:text=" ${physicaldev.id} " />
+                                    <p th:text=" ${physicaldev.getSport().getName()} " />
                                 </td>
                                 <td>
                                     <p th:text=" ${physicaldev.bloodPressure} " />
@@ -430,18 +407,9 @@
 
 
                     <div id="tab5">
-                        <!----------------------------------------Table--------------------------------------->
+                        <!----------------------------------------TrainingMethod--------------------------------------->
                         <table class="flatTable">
                             <tr class="headingTr">
-                                <td>
-                                    Sorszám
-                                </td>
-                                <td>
-                                    Sport
-                                </td>
-                                <td>
-                                    Edzésmódszer
-                                </td>
                                 <td>
                                     Kezdési dátum
                                 </td>
@@ -449,24 +417,28 @@
                                     Befejezés dátuma
                                 </td>
                                 <td>
+                                    Edzésmódszer
+                                </td>
+                                <td>
+                                    Sport
+                                </td>
+                                <td>
                                     Műveletek
                                 </td>
                             </tr>
                             <tr th:each="trainingmethod : ${trainingmethods}">
                                 <td>
-                                    <p th:text=" ${trainingmethod.id} " />
+                                    <p th:text="${#dates.format(trainingmethod.startDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
-                                    <p th:text=" ${trainingmethod.getSport().getName()} " />
+                                 <p th:text="${#dates.format(trainingmethod.endDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
                                     <p th:text=" ${trainingmethod.name} " />
                                 </td>
                                 <td>
-                                    <p th:text="${#dates.format(trainingmethod.startDate, 'yyyy-MM-dd')}" />
-                                </td>
-                                <td>
-                                 <p th:text="${#dates.format(trainingmethod.endDate, 'yyyy-MM-dd')}" />
+                                    <p hidden th:text=" ${trainingmethod.id} " />
+                                    <p th:text=" ${trainingmethod.getSport().getName()} " />
                                 </td>
                                 <td class="controlTd">
                                     <div class="settingsIcons">
@@ -503,19 +475,16 @@
                         <table class="flatTable">
                             <tr class="headingTr">
                                 <td>
-                                    Sorszám
-                                </td>
-                                <td>
-                                    Táplálékkiegészito
-                                </td>
-                                <td>
-                                    Napi adag
-                                </td>
-                                <td>
                                     Kezdési dátum
                                 </td>
                                 <td>
                                     Befejezés dátuma
+                                </td>
+                                <td>
+                                    Táplálékkiegészitő
+                                </td>
+                                <td>
+                                    Napi adag
                                 </td>
                                 <td>
                                     Műveletek
@@ -523,19 +492,17 @@
                             </tr>
                             <tr th:each="usedsupp : ${usedsupps}">
                                 <td>
-                                    <p th:text=" ${usedsupp.id} " />
-                                </td>
-                                <td>
-                                    <p th:text=" ${usedsupp.getSupplement().getName()} " />
-                                </td>
-                                <td>
-                                    <p th:text=" ${usedsupp.dailyDosage} " />
-                                </td>
-                                <td>
                                 <p th:text="${#dates.format(usedsupp.startDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
                                 <p th:text="${#dates.format(usedsupp.endDate, 'yyyy-MM-dd')}" />
+                                </td>
+                                <td>
+                                    <p hidden th:text=" ${usedsupp.id} " />
+                                    <p th:text=" ${usedsupp.getSupplement().getName()} " />
+                                </td>
+                                <td>
+                                    <p th:text=" ${usedsupp.dailyDosage} " />
                                 </td>
                                 <td class="controlTd">
                                 <div class="settingsIcons">
@@ -567,16 +534,13 @@
                         <table class="flatTable">
                             <tr class="headingTr">
                                 <td>
-                                    Sorszám
-                                </td>
-                                <td>
-                                    Klub
-                                </td>
-                                <td>
                                     Tagság kezdete
                                 </td>
                                 <td>
                                     Tagság vége
+                                </td>
+                                <td>
+                                    Klub
                                 </td>
                                 <td>
                                     Műveletek
@@ -584,18 +548,16 @@
                             </tr>
                             <tr th:each="membership : ${memberships}">
                                 <td>
-                                    <p th:text=" ${membership.id} " />
-                                </td>
-                                <td>
-                                    <p th:text=" ${membership.getClub().name} " />
-                                </td>
-
-                                <td>
                                     <p th:text="${#dates.format(membership.startDate, 'yyyy-MM-dd')}" />
                                 </td>
                                 <td>
                                     <p th:text="${#dates.format(membership.endDate, 'yyyy-MM-dd')}" />
                                 </td>
+                                <td>
+                                    <p hidden th:text=" ${membership.id} " />
+                                    <p th:text=" ${membership.club.name} " />
+                                </td>
+
                                 <td class="controlTd">
                                     <div class="settingsIcons">
                                         <span class="settingsIcon">

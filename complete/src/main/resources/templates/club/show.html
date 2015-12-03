@@ -7,7 +7,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <title>
-         SB Admin - Bootstrap Admin Template
+         Personal Performance Monitoring System
       </title>
       <!-- Bootstrap Core CSS -->
       <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -76,7 +76,7 @@
                   <table class="flatTable">
                      <tr class="titleTr">
                         <td class="titleTd" style="font-size:20px">
-                           <a href="#tab1" class="selected" class="headingTab">Esemény</a>
+                           <a href="#tab1" class="selected" class="headingTab">Taglista</a>
                         </td>
                         <td> <a href="#tab2" class="headingTab">Eredmények</a></td>
                         
@@ -90,32 +90,48 @@
                      <!----------------------------------------Table--------------------------------------->
                      <table class="flatTable">
                         <tr class="headingTr">
-                           <td>
-                              Sorszám
+                            <td>
+                              Tagság kezdete
+                           </td>
+                            <td>
+                              Tagság vége
                            </td>
                            <td>
                               Név
                            </td>
+                            <td>
+                            Sport
+                           </td>
                            <td>
-                            Központ
+                            Születési idő
+                           </td>
+                           <td>
+                           Cím
                            </td>
                            <td>
                            Műveletek
                            </td>
                         </tr>
-                        <tr >
+                        <tr th:each="membership : ${members}">
                            <td>
-                              <p th:text=" ${club.id} " />
+                                 <p th:text=" ${#dates.format(membership.getStartDate(), 'yyyy-MM-dd')} " />
                            </td>
-                           <td>
-                              <a th:href="@{/club/show/{id}(id=${club.id})}">
-                                 <p th:text=" ${club.name} " />
-                              </a>
+                            <td>
+                                <p th:text=" ${#dates.format(membership.getEndDate(), 'yyyy-MM-dd')} " />
                            </td>
-                           <td>
-                              <p th:text=" ${club.headquarter} " />
+                              <td>
+                                <p th:text=" ${membership.getPerson().getName()} " />
                            </td>
-                 
+                              <td>
+                                <p th:text=" ${membership.getClub().getSport().getName()} " />
+                           </td>
+                               <td>
+                                <p th:text=" ${#dates.format(membership.getPerson().getBirthDate(), 'yyyy-MM-dd')} " />
+                           </td>
+                               <td>
+                                <p th:text=" ${membership.getPerson().getAddress()} " />
+                           </td>
+                            
             
                            <td class="controlTd">
                               <div class="settingsIcons">
@@ -149,9 +165,6 @@
                      <!----------------------------------------Table--------------------------------------->
                      <table class="flatTable">
                         <tr class="headingTr">
-                           <td>
-                              Sorszám
-                           </td>
                              <td>
                               Verseny
                            </td>
@@ -175,13 +188,11 @@
                            </td>
                         </tr>
                         <tr th:each="result : ${results}">
-                           <td>
-                              <p th:text=" ${result.id} " />
-                           </td>
                             <td>
                               <p th:text=" ${result.getEvent().getName()} " />
                            </td>
                               <td>
+                              <p hidden th:text=" ${result.id} " />
                               <p th:text=" ${result.getPerson().getName()} " />
                            </td>
                             <td>

@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>
-        People Performance Management System
+       Personal Performance Monitoring System
     </title>
     <!-- Bootstrap Core CSS -->
     <!-- Custom CSS -->
@@ -79,7 +79,7 @@
                             </li>
                             <li class="active">
                                 <i class="fa fa-table">
-                           </i> Tables
+                           </i> Személyek
                             </li>
                         </ol>
                     </div>
@@ -91,15 +91,12 @@
                         <td class="titleTd" style="font-size:20px">
                             Személyek
                         </td>
-                        <td colspan="5">
+                        <td colspan="3">
                         </td>
                         <td class="plusTd button">
                         </td>
                     </tr>
                     <tr class="headingTr">
-                        <td>
-                            Sorszám
-                        </td>
                         <td>
                             Név
                         </td>
@@ -115,19 +112,15 @@
                         <td>
                             Műveletek
                         </td>
-                        <td>
-                        </td>
                     </tr>
                     <tr th:each="person : ${allperson}">
-                        <td>
-                            <p th:text=" ${person.id} " />
-                        </td>
                         <td>
                             <a th:href="@{/person/show/{id}(id=${person.id})}">
                                 <p th:text=" ${person.name} " />
                             </a>
                         </td>
                         <td>
+                            <p hidden th:text=" ${person.id} " />
                             <p th:text=" ${person.sport.name} " />
                         </td>
                         <td>
@@ -136,7 +129,6 @@
                         <td>
                             <p th:text=" ${person.address} " />
                         </td>
-                        <td>
                             <td class="controlTd">
                                 <div class="settingsIcons">
                                     <span class="settingsIcon">
@@ -152,7 +144,6 @@
 
                                 </div>
                             </td>
-                        </td>
                     </tr>
                 </table>
                 <div th:include="fragments/forms :: newPerson"></div>

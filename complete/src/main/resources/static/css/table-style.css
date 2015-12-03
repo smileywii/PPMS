@@ -23,6 +23,7 @@ body {
 .flatTable td {
   box-sizing: border-box;
   padding-left: 30px;
+  padding-right: 30px;
 }
 .flatTable .titleTr {
   height: 70px;

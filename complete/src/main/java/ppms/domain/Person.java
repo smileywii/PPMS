@@ -96,6 +96,15 @@ public class Person implements Serializable {
     return this;
   }
 
+  public String getClubAtDate(Date date) {
+    for (Membership membership : memberships) {
+      if (membership.getEndDate().after(date)) {
+        return membership.getClub().getName();
+      }
+    }
+    return "Nincs Klubja";
+  }
+
   @Override
   public String toString() {
     return String.format("People[id=%d, firstName='%s', age='%s', address='%s']", getId(), name, birthDate, address);

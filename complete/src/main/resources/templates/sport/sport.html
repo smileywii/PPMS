@@ -7,7 +7,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <title>
-         SB Admin - Bootstrap Admin Template
+         Personal Performance Monitoring System
       </title>
       <!-- Bootstrap Core CSS -->
       <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
@@ -87,37 +87,21 @@
                      <td class="titleTd" style="font-size:20px">
                         Sportok
                      </td>
-                     <td colspan="3">
-                     </td>
                      <td class="plusTd button">
                      </td>
                   </tr>
                   <tr class="headingTr">
                      <td>
-                        Sorszám
-                     </td>
-                     <td>
                         Név
                      </td>
-                    
                      <td>
                         Műveletek
-                     </td>
-                <td>
-                     </td>
-                       <td>
                      </td>
                   </tr>
                   <tr th:each="sport : ${sports}">
                      <td>
-                        <p th:text=" ${sport.id} " />
-                     </td>
-                     <td>
+                        <p hidden th:text=" ${sport.id} " />
                         <p th:text="${sport.name}" />
-                     </td>
-                     <td>
-                     </td>
-                       <td>
                      </td>
                     <td class="controlTd">
                                 <div class="settingsIcons">
@@ -127,11 +111,6 @@
                                     <div class="settingsIcon">
                                         <a class="glyphicon  glyphicon-remove-sign" th:href="@{/sport/delete/{id}(id=${sport.id})}"><span></span></a>
                                     </div>
-
-                                    <div class="settingsIcon">
-                                        <a class="glyphicon glyphicon-pencil" th:id=${sport.id} onclick="openUpdateSportForm(this)"><span></span></a>
-                                    </div>
-
                                 </div>
                             </td>
                   </tr>

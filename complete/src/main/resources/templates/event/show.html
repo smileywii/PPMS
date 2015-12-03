@@ -7,7 +7,7 @@
       <meta name="description" content="">
       <meta name="author" content="">
       <title>
-         SB Admin - Bootstrap Admin Template
+        Personal Performance Monitoring System
       </title>
       <!-- Bootstrap Core CSS -->
       <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -66,7 +66,7 @@
                         </li>
                         <li class="active">
                            <i class="fa fa-table">
-                           </i> Tables
+                           </i> Esemény
                         </li>
                      </ol>
                   </div>
@@ -76,12 +76,13 @@
                   <table class="flatTable">
                      <tr class="titleTr">
                         <td class="titleTd" style="font-size:20px">
-                           <a href="#tab1" class="selected" class="headingTab">Esemény</a>
+                           <a href="#tab1" class="selected" class="headingTab">Eredmények</a>
                         </td>
-                        <td> <a href="#tab2" class="headingTab">Eredmények</a></td>
+                        <td> <a href="#tab2" class="headingTab"></a></td>
                         
                       
-                  
+                   <td colspan="2">
+                     </td>
                         <td class="plusTd button">
                         </td>
                      </tr>
@@ -91,90 +92,19 @@
                      <table class="flatTable">
                         <tr class="headingTr">
                            <td>
-                              Sorszám
-                           </td>
-                           <td>
-                              Név
-                           </td>
-                           <td>
-                             Stadion
-                           </td>
-                           <td>
-                            Dátum
-                           </td>
-                           <td>
-                              Város
-                           </td>
-                           <td>
-                           Műveletek
-                           </td>
-                        </tr>
-                        <tr >
-                           <td>
-                              <p th:text=" ${event.id} " />
-                           </td>
-                           <td>
-                              <a th:href="@{/event/show/{id}(id=${event.id})}">
-                                 <p th:text=" ${event.name} " />
-                              </a>
-                           </td>
-                           <td>
-                              <p th:text=" ${event.stadium} " />
-                           </td>
-                             <td>
-                              <p th:text=" ${event.date} " />
-                           </td>
-                             <td>
-                              <p th:text=" ${event.city} " />
-                           </td>
-                           <td>
-                           <td class="controlTd">
-                              <div class="settingsIcons">
-                                 <span class="settingsIcon">
-                                 <img src="http://i.imgur.com/nnzONel.png" alt="X" />
-                                 </span>
-                                 <span class="settingsIcon">
-                                 <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                                 </span>
-                                 <div class="settingsIcon">
-                                    <img src="http://i.imgur.com/UAdSFIg.png" alt="placeholder icon" />
-                                 </div>
-                              </div>
-                           </td>
-                        </tr>
-                     </table>
-                     <div id="sForm" class="sForm sFormPadding ">
-                        <h3 class="title">
-                           Új elem felvétele
-                        </h3>
-                        <span class="button close">
-                        <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
-                        </span>
-                     </div>
-                  </div>
-                  
-                  
-                  
-                  
-                  <div id="tab2">
-                     <!----------------------------------------Table--------------------------------------->
-                     <table class="flatTable">
-                        <tr class="headingTr">
-                           <td>
-                              Sorszám
+                              Dátum
                            </td>
                              <td>
                               Verseny
                            </td>
-                           <td>
-                              Versenyző
-                           </td>
                                 <td>
                               Helyezés
                            </td>
-                         
                            <td>
-                              Dátum
+                              Versenyző
+                           </td>
+                           <td>
+                              Club
                            </td>
                              <td>
                              Sport
@@ -182,24 +112,23 @@
                            <td>
                               Műveletek
                            </td>
-                           <td>
-                           </td>
                         </tr>
                         <tr th:each="result : ${results}">
-                           <td>
-                              <p th:text=" ${result.id} " />
+                            <td>
+                              <p th:text=" ${#dates.format(result.getEvent().getDate(), 'yyyy-MM-dd')} " />
                            </td>
                             <td>
+                              <p hidden th:text=" ${result.id} " />
                               <p th:text=" ${result.getEvent().getName()} " />
+                           </td>
+                            <td>
+                              <p th:text=" ${result.position} + '.' " />
                            </td>
                               <td>
                               <p th:text=" ${result.getPerson().getName()} " />
                            </td>
                             <td>
-                              <p th:text=" ${result.position} " />
-                           </td>
-                            <td>
-                              <p th:text=" ${result.getEvent().getDate()} " />
+                              <p th:text=" ${result.getPerson().getClubAtDate(result.getEvent().getDate())} " />
                            </td>
                             <td>
                               <p th:text=" ${result.getSport().getName()} " />
@@ -226,18 +155,10 @@
                         <span class="button close">
                         <img src="http://i.imgur.com/nnzONel.png" alt="X"  class="" />
                         </span>
-                     </div>
-                     <!----------------------------------------Table--------------------------------------->
                   </div>
-                  
-
-
-
 
                   
-                  
-                  
-                  
+                  </div>
                   
                </div>
                <script type="text/javascript"> 

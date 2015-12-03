@@ -25,7 +25,7 @@ public class ClubController {
   ClubService clubService;
 
   @Autowired
-  MembershipService memberListService;
+  MembershipService membershipService;
 
   @Autowired
   SportService sportService;
@@ -55,6 +55,7 @@ public class ClubController {
   public String show(String name, Model model, @PathVariable Long id) {
     Club club = clubService.findOne(id);
     model.addAttribute("club", club);
+    model.addAttribute("members", membershipService.getAllMembershipOfClub(id));
     // TODO
     // model.addAttribute("members", memberListService.fi.get());
 

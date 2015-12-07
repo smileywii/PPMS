@@ -1,6 +1,7 @@
 package ppms.domain;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -96,13 +97,30 @@ public class Person implements Serializable {
     return this;
   }
 
-  public String getClubAtDate(Date date) {
+  public String getClubNameAtDate(Date date) {
     for (Membership membership : memberships) {
       if (membership.getEndDate().after(date)) {
         return membership.getClub().getName();
       }
     }
     return "Nincs Klubja";
+  }
+
+  public int getAge() {
+    // Date now = new Date();
+    // long ageInMillis = now.getTime() - birthDate.getTime();
+    // Calendar cal = Calendar.getInstance();
+    // cal.setTime(new Date(ageInMillis));
+
+    Calendar dob = Calendar.getInstance();
+    dob.setTime(birthDate);
+    Calendar today = Calendar.getInstance();
+    int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+    if (today.get(Calendar.DAY_OF_YEAR) <= dob.get(Calendar.DAY_OF_YEAR))
+      age--;
+    return age;
+
+    // return cal.get(Calendar.YEAR);
   }
 
   @Override

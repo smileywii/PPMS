@@ -16,9 +16,9 @@ var restGetSupp = function() {
             while (result[i]) {
                 sports[i] = new Array(4)
                 sports[i][0] = result[i][0].name;
-                sports[i][1] = result[i][0].number;
+                sports[i][1] = result[i][0].count;
                 sports[i][2] = '#a3a3f5';
-                sports[i][3] = result[i][0].number;
+                sports[i][3] = result[i][0].count;
                 i++;
             }
             sports.unshift(["Táplálékkiegészítők", "Sportolók száma", { role: 'style'}, { role: 'annotation' } ]);
@@ -93,7 +93,7 @@ function drawPieChart() {
 function restGetSuppByClub() {
     $.ajax({
         type: 'GET',
-        url: prefix + "supplementpopularityByClub",
+        url: prefix + "supplementpopularitybyclub",
         dataType: 'json',
         async: true,
         success: function(result) {
@@ -102,7 +102,7 @@ function restGetSuppByClub() {
             while (result[i]) {
                 sports[i] = new Array(3)
                 sports[i][0] = result[i][0].name;
-                sports[i][1] = result[i][0].number;
+                sports[i][1] = result[i][0].count;
                 sports[i][2] = 'orange';
                 i++
             }
@@ -117,5 +117,35 @@ function restGetSuppByClub() {
             alert(jqXHR.status + " " + jqXHR.responseText);
         }
     });
-
 }
+    
+    
+    
+    function restGetSuppBrandByPeople() {
+            $.ajax({
+                type: 'GET',
+                url: prefix + "supplementbrandpopularitybypeople",
+                dataType: 'json',
+                async: true,
+                success: function(result) {
+                    sports = new Array();
+                    var i = 0;
+                    while (result[i]) {
+                        sports[i] = new Array(4)
+                        sports[i][0] = result[i][0].name;
+                        sports[i][1] = result[i][0].count;
+                        sports[i][2] = '#a3a3f5';
+                        sports[i][3] = result[i][0].count;
+                        i++;
+                    }
+                    sports.unshift(["Táplálékkiegészítők", "Sportolók száma", { role: 'style'}, { role: 'annotation' } ]);
+
+                    title = 'Táplálékkiegészítők népszerűsége sportolók szerint';
+                    drawChart();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.status + " " + jqXHR.responseText);
+                }
+            });
+    }
+

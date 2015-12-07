@@ -33,10 +33,11 @@
                     
 				
                     
-                     <select id="allclub"  name="clubList" th:field="*{clubId}">
+                     <select id="allclub"  name="clubList" th:field="*{clubId}" class="form-control">
                      		 <option th:value="0" th:text="---">
   							 <option th:each="club : ${allClub}" th:value="${club.id}" th:text="${club.name}  + ' - ' + ${club.sport.name} "  />
                 		</select>
+                		<br>
                 		
                 		
                     <button type="submit" class="button button-block">Felvétel</button>

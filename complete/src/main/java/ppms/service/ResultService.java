@@ -1,5 +1,6 @@
 package ppms.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,7 +13,6 @@ import ppms.domain.Person;
 import ppms.domain.Result;
 import ppms.dto.NewResultDTO;
 import ppms.dto.UpdateResultDTO;
-import ppms.repository.EventRepository;
 import ppms.repository.ResultRepository;
 
 @Service
@@ -25,7 +25,10 @@ public class ResultService {
   PersonService personService;
 
   @Autowired
-  EventRepository eventService;
+  EventService eventService;
+
+  @Autowired
+  MembershipService membershipService;
 
   public List<Result> findAllByEventId(Long id) {
     return resultsRepository.findAllByEventId(id);
@@ -59,5 +62,23 @@ public class ResultService {
 
   public List<Event> getAllResultsToEvent(Long id) {
     return resultsRepository.getAllResultsToEvent(id);
+  }
+
+  public List<Result> getAllResultBySport(long id) {
+    return resultsRepository.getAllResultBySport(id);
+  }
+
+  public List<Result> findAll() {
+    return resultsRepository.findAll();
+  }
+
+  public List<Result> getAllResultByClub(long id) {
+    List<Result> results = new ArrayList<Result>();
+    List<Person> members = membershipService.getAllMembersOfClub(id);
+    for (Person person : members) {
+      results.addAll(person.getResults());
+    }
+
+    return results;
   }
 }

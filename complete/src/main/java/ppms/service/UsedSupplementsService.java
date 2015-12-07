@@ -63,4 +63,8 @@ public class UsedSupplementsService {
     return usedSupplementsRepository.findAll();
   }
 
+  // public int getAllPeopleCountUsingThisBrand(String brand) {
+  // return usedSupplementsRepository.getAllPeopleCountUsingThisBrand(brand);
+  // }
+
 }

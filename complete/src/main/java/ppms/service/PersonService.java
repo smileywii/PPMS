@@ -58,7 +58,7 @@ public class PersonService {
     return personRepository.numberOfPeopleDoingSport(sportId);
   }
 
-  public Integer numberOfClubDoingSport(Long sportId) {
+  public Integer getAllClubCountDoingSport(Long sportId) {
     return personRepository.numberOfClubDoingSport(sportId);
   }
 
@@ -116,5 +116,40 @@ public class PersonService {
       }
     }
     return 0;
+  }
+
+  public int numberOfPeopleDoingSportAtAge(long id, String filter) {
+    filter = filter.replace("\"", "");
+    int count = 0;
+    List<Person> people = personRepository.getAllPeopleDoingSport(id);
+    for (Person person : people) {
+      if (isPersonAgeInTheIntervall(person.getAge(), filter)) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  private boolean isPersonAgeInTheIntervall(int age, String filter) {
+    if (filter.equals("Mindet mutat")) {
+      return true;
+    }
+    if (filter.contains("-")) {
+      String interval[] = filter.split("-");
+      if (Integer.parseInt(interval[0].trim()) <= age && Integer.parseInt(interval[1].trim()) >= age) {
+        return true;
+      }
+
+    } else if (filter.contains("<")) {
+      if (20 > age) {
+        return true;
+      }
+
+    } else {
+      if (age >= 40) {
+        return true;
+      }
+    }
+    return false;
   }
 }

@@ -19,4 +19,7 @@ public interface ResultRepository extends JpaRepository<Result, Long> {
   @Query("SELECT r FROM Result r WHERE r.event.id LIKE ?1")
   public List<Event> getAllResultsToEvent(Long id);
 
+  @Query("SELECT r FROM Result r WHERE r.sport.id LIKE ?1")
+  public List<Result> getAllResultBySport(long id);
+
 }

@@ -1,6 +1,7 @@
 package ppms.service;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -55,6 +56,10 @@ public class NutritionalSupplementService {
     nutritionalSupplement.update(supplementDTO);
 
     save(nutritionalSupplement);
+  }
+
+  public Set<String> findAllBrand() {
+    return nutritionalSupplementRepository.findAllBrand();
   }
 
 }

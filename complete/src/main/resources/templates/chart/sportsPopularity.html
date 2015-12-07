@@ -63,7 +63,29 @@
                     <button type="button" class="btn btn-primary" onclick="restGetPeople()" id="btn">Sportolók</button>
                     <button type="button" class="btn btn-warning" onclick="restGetClub()" id="btn">Klubok</button>
                     
+                  
+                    
+                <br>
+                <br>
+                
+                <div id="filterSelect" style="margin-g: 130px ; width:30%;" class="form-group">
+  <th:text id="filterLabel">Kor szerinti szűrés:</th:text>
+  <select  onchange="filterChange(this)" class="form-control">
+  <option>Mindet mutat</option>
+    <option>< 20</option>
+    <option>20 - 29</option>
+    <option>30 - 39</option>
+    <option>40+</option>
+  </select>
+</div>
+                
+                
                 </div>
+                
+                
+                
+                
+                
                 <!-- /.row -->
                 </div>
                 <br>
@@ -72,6 +94,7 @@
                 <br>
                 <br>
 
+            </div>
             </div>
             <!-- /#page-wrapper -->
             <!-- /#wrapper -->
